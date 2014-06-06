@@ -46,10 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EmbeddedResource Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if exist "%25BIN%25\$(TargetFileName)" xcopy "$(TargetPath)" "%25BIN%25" /y</PostBuildEvent>
+    <PostBuildEvent>if exist "%25bin%25\$(TargetFileName)" xcopy "$(TargetPath)" "%25bin%25" /y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
