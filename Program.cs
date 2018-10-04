@@ -193,6 +193,15 @@ namespace sortxml
             //       (Sorting attributes is done before node sorting happens,
             //       if specified).
             if (result == 0) {
+                if (a.Attributes == null && b.Attributes == null) {
+                    return 0;
+                } else if (a.Attributes == null)
+                {
+                    return 1;
+                } else if (b.Attributes == null)
+                {
+                    return -1;
+                }
                 col1 = (a.Attributes.Count >= b.Attributes.Count) ? a.Attributes : b.Attributes;
                 col2 = (a.Attributes.Count >= b.Attributes.Count) ? b.Attributes : a.Attributes;
 
