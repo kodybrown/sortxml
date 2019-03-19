@@ -35,6 +35,12 @@ Copyright 2014 Kody Brown (@wasatchwizard)
                     Sorts node and attributes case-sensitively.
                     If neither option is specified, uses case-sensitive sort.
 
+      /l --numbers-logical
+                    abc2 comes before abc10.
+      !l --numbers-string
+                    abc2 comes after abc10.
+                    If neither option is specified, uses numbers-logical sort.
+
       --overwrite   Writes back to the infile.
                     Only used if outfile is not specified.
 

@@ -37,7 +37,8 @@ namespace sortxml
             sort_attr = true,
             pretty = true,
             pause = false,
-            overwriteSelf = false;
+            overwriteSelf = false,
+            sort_logical = true;
         static StringComparison
             sort_node_comp = StringComparison.CurrentCulture, // Default to case-sensitive sorting.
             sort_attr_comp = StringComparison.CurrentCulture;
@@ -79,6 +80,10 @@ namespace sortxml
                     } else if (al.Equals("!s") || al.Equals("!sort") || al.StartsWith("!sortall") || al.StartsWith("!sort-all")) {
                         sort_node = false;
                         sort_attr = false;
+                    } else if (al.Equals("l") || al.StartsWith("numbers-l") || al.StartsWith("numbersl")) {
+                        sort_logical = true;
+                    } else if (al.Equals("!l") || al.StartsWith("numbers-s") || al.StartsWith("numberss")) {
+                        sort_logical = false;
                     } else if (al.StartsWith("sortn") || al.StartsWith("sort-n")) {
                         sort_node = true;
                     } else if (al.StartsWith("!sortn") || al.StartsWith("!sort-n")) {
@@ -180,19 +185,37 @@ namespace sortxml
             }
         }
 
+        static int StringCompare(string a, string b, StringComparison comparisonType)
+        {
+            if (sort_logical) {
+                return LexicographicalComparer.Compare(a, b, comparisonType);
+            } else {
+                return String.Compare(a, b, comparisonType);
+            }
+        }
+
         static int SortDelegate( XmlNode a, XmlNode b )
         {
             XmlAttribute aa, bb;
             XmlAttributeCollection col1, col2;
             int result;
 
-            result = string.Compare(a.Name, b.Name, sort_node_comp);
+            result = StringCompare(a.Name, b.Name, sort_node_comp);
 
             // NOTE: Always sort the _nodes_ based on its attributes (when the 
             //       name matches), but don't actually sort the node's attributes.
             //       (Sorting attributes is done before node sorting happens,
             //       if specified).
             if (result == 0) {
+                if (a.Attributes == null && b.Attributes == null) {
+                    return 0;
+                } else if (a.Attributes == null)
+                {
+                    return 1;
+                } else if (b.Attributes == null)
+                {
+                    return -1;
+                }
                 col1 = (a.Attributes.Count >= b.Attributes.Count) ? a.Attributes : b.Attributes;
                 col2 = (a.Attributes.Count >= b.Attributes.Count) ? b.Attributes : a.Attributes;
 
@@ -200,9 +223,9 @@ namespace sortxml
                     if (i < col2.Count) {
                         aa = col1[i];
                         bb = col2[i];
-                        result = string.Compare(aa.Name, bb.Name, sort_attr_comp);
+                        result = StringCompare(aa.Name, bb.Name, sort_attr_comp);
                         if (result == 0) {
-                            result = string.Compare(aa.Value, bb.Value, sort_attr_comp);
+                            result = StringCompare(aa.Value, bb.Value, sort_attr_comp);
                             if (result != 0) {
                                 return result;
                             }
@@ -262,9 +285,9 @@ namespace sortxml
 
             attrs.Sort(delegate( XmlAttribute a, XmlAttribute b )
             {
-                result = string.Compare(a.Name, b.Name, sort_attr_comp);
+                result = StringCompare(a.Name, b.Name, sort_attr_comp);
                 if (result == 0) {
-                    return string.Compare(a.Value, b.Value, sort_attr_comp);
+                    return StringCompare(a.Value, b.Value, sort_attr_comp);
                 } else if (primary_attr.Length > 0) {
                     // If a primary_attr is specified, it is always made the first attribute!
                     if (a.Name.Equals(primary_attr, sort_attr_comp)) {
