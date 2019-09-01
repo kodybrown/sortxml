@@ -1,0 +1,1051 @@
+
+# dotnet format
+# https://github.com/dotnet/format
+# https://kent-boogaart.com/blog/editorconfig-reference-for-c-developers
+
+# top-most EditorConfig file
+root = true
+
+#
+# All files
+#
+[*]
+
+# Key: indent_style
+# Valid values: space|tab
+# Supports code style option: no
+indent_style = tab
+
+# (Please don't specify an indent_size here; that has too many unintended consequences.)
+
+#
+# Code files
+#
+[*.{cs,csx,vb,vbx}]
+
+# Key: indent_size
+# Valid values: (any integer)
+# Supports code style option: no
+indent_size = 4
+
+# Key: tab_width
+# Valid values: (any integer)
+# Supports code style option: no
+tab_width = 4
+
+# Key: insert_final_newline
+# Valid values: true|false
+# Supports code style option: no
+insert_final_newline = true
+
+charset = utf-8-bom
+
+trim_trailing_whitespace = true
+
+# Key: end_of_line
+# Valid values: lf|cr|crlf
+# Supports code style option: no
+end_of_line = crlf
+
+#
+# XML project files
+#
+[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
+
+# Key: indent_size
+# Valid values: (any integer)
+# Supports code style option: no
+indent_size = 4
+
+#
+# XML config files
+#
+[*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
+
+# Key: indent_size
+# Valid values: (any integer)
+# Supports code style option: no
+indent_size = 4
+
+#
+# JSON files
+#
+[*.json]
+
+# Key: indent_size
+# Valid values: (any integer)
+# Supports code style option: no
+indent_size = 4
+
+#
+# Powershell files
+#
+[*.ps1]
+
+# Key: indent_size
+# Valid values: (any integer)
+# Supports code style option: no
+indent_size = 4
+
+#
+# Shell script files
+#
+[*.sh]
+
+# Key: end_of_line
+# Valid values: lf|cr|crlf
+# Supports code style option: no
+end_of_line = lf
+
+# Key: indent_size
+# Valid values: (any integer)
+# Supports code style option: no
+indent_size = 4
+
+#
+# Dotnet diagnostic settings
+#
+
+# [*.{cs,vb}]
+# dotnet_diagnostic.xUnit2018.severity = none # "do not compare an object's exact type to the abstract class" is a valid assert, but very noisy right now
+
+
+###############################
+# .NET Coding Conventions     #
+###############################
+
+[*.{cs,vb}]
+# dotnet_diagnostic.xUnit2018.severity = none # "do not compare an object's exact type to the abstract class" is a valid assert, but very noisy right now
+
+#
+# Organize usings
+#
+
+# Key: dotnet_sort_system_directives_first
+# Valid values: true|false
+# Supports code style option: no
+# // dotnet_sort_system_directives_first = true
+# using System;
+# using Foo;
+# // dotnet_sort_system_directives_first = false
+# using Foo;
+# using System;
+dotnet_sort_system_directives_first = true
+
+dotnet_separate_import_directive_groups = false
+
+#
+# Avoid "this." if not necessary
+#
+
+# Key: dotnet_style_qualification_for_field
+# Valid values: true|false
+# Supports code style option: yes
+# // dotnet_style_qualification_for_field = true:error
+# this.foo = 42;
+# // dotnet_style_qualification_for_field = false:error
+# foo = 42;
+dotnet_style_qualification_for_field = false:refactoring
+
+# Key: dotnet_style_qualification_for_property
+# Valid values: true|false
+# Supports code style option: yes
+# // dotnet_style_qualification_for_property = true:error
+# this.Foo = 42;
+# // dotnet_style_qualification_for_property = false:error
+# Foo = 42;
+dotnet_style_qualification_for_property = false:refactoring
+
+# Key: dotnet_style_qualification_for_method
+# Valid values: true|false
+# Supports code style option: yes
+# // dotnet_style_qualification_for_method = true:error
+# this.Foo();
+# // dotnet_style_qualification_for_method = false:error
+# Foo();
+dotnet_style_qualification_for_method = false:refactoring
+
+# Key: dotnet_style_qualification_for_event
+# Valid values: true|false
+# Supports code style option: yes
+# // dotnet_style_qualification_for_event = true:error
+# this.FooHappened += OnFoo;
+# // dotnet_style_qualification_for_event = false:error
+# FooHappened += OnFoo;
+dotnet_style_qualification_for_event = false:refactoring
+
+#
+# Use language keywords instead of framework type names for type references
+#
+
+# Key: dotnet_style_predefined_type_for_locals_parameters_members
+# Valid values: true|false
+# Supports code style option: yes
+# // dotnet_style_predefined_type_for_locals_parameters_members = true:error
+# public void Foo(int bar)
+# {
+# }
+# // dotnet_style_predefined_type_for_locals_parameters_members = false:error
+# public void Foo(Int32 bar)
+# {
+# }
+dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
+
+# Key: dotnet_style_predefined_type_for_member_access
+# Valid values: true|false
+# Supports code style option: yes
+# // dotnet_style_predefined_type_for_member_access = true:error
+# var foo = int.MinValue;
+# // dotnet_style_predefined_type_for_member_access = false:error
+# var foo = Int32.MinValue;
+dotnet_style_predefined_type_for_member_access = true:suggestion
+
+#
+# Suggest more modern language features when available
+#
+
+# Key: dotnet_style_object_initializer
+# Valid values: true|false
+# Supports code style option: yes
+# // dotnet_style_object_initializer = true:error
+# var foo = new Foo
+# {
+#     Value = 42
+# };
+# // dotnet_style_object_initializer = false:error
+# var foo = new Foo();
+# foo.Value = 42;
+dotnet_style_object_initializer = true:suggestion
+
+# Key: dotnet_style_collection_initializer
+# Valid values: true|false
+# Supports code style option: yes
+# // dotnet_style_collection_initializer = true:error
+# var foos = new List<int> { 42, 13 };
+# // dotnet_style_collection_initializer = false:error
+# var foo = new List<int>();
+# foo.Add(42);
+# foo.Add(13);
+dotnet_style_collection_initializer = true:suggestion
+
+# Key: dotnet_style_coalesce_expression
+# Valid values: true|false
+# Supports code style option: yes
+# // dotnet_style_coalesce_expression = true:error
+# var foo = bar ?? baz;
+# // dotnet_style_coalesce_expression = false:error
+# var foo = bar != null ? bar : baz;
+dotnet_style_coalesce_expression = true:suggestion
+
+# Key: dotnet_style_null_propagation
+# Valid values: true|false
+# Supports code style option: yes
+# // dotnet_style_null_propagation = true:error
+# var foo = foo?.GetSomething();
+# // dotnet_style_null_propagation = false:error
+# var foo = foo == null ? null : foo.GetSomething();
+dotnet_style_null_propagation = true:suggestion
+
+# Key: dotnet_style_explicit_tuple_names
+# Valid values: true|false
+# Supports code style option: yes
+# // dotnet_style_explicit_tuple_names = true:error
+# (int foo, int bar) data = GetData();
+# var foo = data.foo;
+# // dotnet_style_explicit_tuple_names = false:error
+# (int foo, int bar) data = GetData();
+# var foo = data.Item1;
+dotnet_style_explicit_tuple_names = true:suggestion
+
+#
+# Parentheses preferences
+#
+
+dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity:silent
+
+dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:silent
+
+dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:silent
+
+dotnet_style_parentheses_in_other_operators = never_if_unnecessary:silent
+
+#
+# Modifier preferences
+#
+
+csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:suggestion
+
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
+
+dotnet_style_readonly_field = true:suggestion
+
+#
+# Expression-level preferences
+#
+
+# Key: csharp_prefer_braces
+# Valid values: true|false
+# Supports code style option: yes
+# // csharp_prefer_braces = true:error
+# if (foo)
+# {
+#     return;
+# }
+# // csharp_prefer_braces = false:error
+# if (foo)
+#     return;
+csharp_prefer_braces = true:warning
+
+csharp_style_deconstructed_variable_declaration = true:suggestion
+
+# Key: csharp_prefer_simple_default_expression
+# Valid values: true|false
+# Supports code style option: yes
+# NOTE: this requires C# 7.1
+# // csharp_prefer_simple_default_expression = true:error
+# public void Foo(int? i = default);
+# // csharp_prefer_simple_default_expression = false:error
+# public void Foo(int? i = default(int));
+csharp_prefer_simple_default_expression = true:suggestion
+
+csharp_style_pattern_local_over_anonymous_function = true:suggestion
+
+# Key: csharp_style_inlined_variable_declaration
+# Valid values: true|false
+# Supports code style option: yes
+# // csharp_style_inlined_variable_declaration = true:error
+# if (this.TryParseFoo(out var foo))
+# {
+# }
+# // csharp_style_inlined_variable_declaration = false:error
+# int foo;
+# if (this.TryParseFoo(out foo))
+# {
+# }
+csharp_style_inlined_variable_declaration = true:suggestion
+
+# dotnet_style_prefer_is_null_check_over_reference_equality_method = true:silent
+
+# dotnet_style_prefer_inferred_tuple_names = true:suggestion
+
+# dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
+
+# dotnet_style_prefer_auto_properties = true:silent
+
+# dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+
+# dotnet_style_prefer_conditional_expression_over_return = true:silent
+
+
+###############################
+# Naming Conventions          #
+###############################
+
+# Style Definitions
+dotnet_naming_style.pascal_case_style.capitalization             = pascal_case
+
+# Use PascalCase for constant fields
+dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
+dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_style
+dotnet_naming_symbols.constant_fields.applicable_kinds            = field
+dotnet_naming_symbols.constant_fields.applicable_accessibilities  = *
+dotnet_naming_symbols.constant_fields.required_modifiers          = const
+
+###############################
+# C# Code Style Rules         #
+###############################
+
+[*.cs]
+
+#
+# var preferences
+#
+
+# Key: csharp_style_var_for_built_in_types
+# Valid values: true|false
+# Supports code style option: yes
+# // csharp_style_var_for_built_in_types = true:error
+# var foo = 42;
+# // csharp_style_var_for_built_in_types = false:error
+# int foo = 42;
+csharp_style_var_for_built_in_types = true:silent
+
+# Key: csharp_style_var_when_type_is_apparent
+# Valid values: true|false
+# Supports code style option: yes
+# // csharp_style_var_when_type_is_apparent = true:error
+# var foo = new List<int>();
+# // csharp_style_var_when_type_is_apparent = false:error
+# List<int> foo = new List<int>();
+csharp_style_var_when_type_is_apparent = true:silent
+
+# Key: csharp_style_var_elsewhere
+# Valid values: true|false
+# Supports code style option: yes
+# // csharp_style_var_elsewhere = true:error
+# var foo = this.Foo();
+# // csharp_style_var_elsewhere = false:error
+# Foo foo = this.Foo();
+csharp_style_var_elsewhere = true:silent
+
+#
+# Expression-bodied members
+#
+
+# Key: csharp_style_expression_bodied_methods
+# Valid values: true|false|when_on_single_line
+# Supports code style option: yes
+# // csharp_style_expression_bodied_methods = true:error
+# public int Foo() => 42;
+# // csharp_style_expression_bodied_methods = false:error
+# public int Foo()
+# {
+#     return 42;
+# }
+csharp_style_expression_bodied_methods = true:silent
+
+# Key: csharp_style_expression_bodied_constructors
+# Valid values: true|false|when_on_single_line
+# Supports code style option: yes
+# // csharp_style_expression_bodied_constructors = true:error
+# public Foo() => this.foo = 42;
+# // csharp_style_expression_bodied_constructors = false:error
+# public Foo()
+# {
+#     this.foo = 42;
+# }
+csharp_style_expression_bodied_constructors = true:when_on_single_line
+
+# Key: csharp_style_expression_bodied_operators
+# Valid values: true|false|when_on_single_line
+# Supports code style option: yes
+# // csharp_style_expression_bodied_operators = true:error
+# public static int operator +(Foo first, Foo second) => first.Bar + second.Bar;
+# // csharp_style_expression_bodied_operators = false:error
+# public static int operator +(Foo first, Foo second)
+# {
+#     return first.Bar + second.Bar;
+# }
+csharp_style_expression_bodied_operators = true:silent
+
+# Key: csharp_style_expression_bodied_properties
+# Valid values: true|false|when_on_single_line
+# Supports code style option: yes
+# // csharp_style_expression_bodied_properties = true:error
+# public int Foo => 42;
+# // csharp_style_expression_bodied_properties = false:error
+# public int Foo
+# {
+#     get { return 42; }
+# }
+csharp_style_expression_bodied_properties = true:silent
+
+# Key: csharp_style_expression_bodied_indexers
+# Valid values: true|false|when_on_single_line
+# Supports code style option: yes
+# // csharp_style_expression_bodied_indexers = true:error
+# public int this[int i] => 42;
+# // csharp_style_expression_bodied_indexers = false:error
+# public int this[int i]
+# {
+#     get { return 42; }
+# }
+csharp_style_expression_bodied_indexers = true:silent
+
+# Key: csharp_style_expression_bodied_accessors
+# Valid values: true|false|when_on_single_line
+# Supports code style option: yes
+# // csharp_style_expression_bodied_accessors = true:error
+# private int foo;
+# public int Foo
+# {
+#     get => this.foo;
+#     set => this.foo = value;
+# }
+# // csharp_style_expression_bodied_accessors = false:error
+# private int foo;
+# public int Foo
+# {
+#     get { return this.foo; }
+#     set { this.foo = value; }
+# }
+csharp_style_expression_bodied_accessors = true:silent
+
+#
+# Pattern-matching preferences
+#
+
+# Key: csharp_style_pattern_matching_over_is_with_cast_check
+# Valid values: true|false
+# Supports code style option: yes
+# // csharp_style_pattern_matching_over_is_with_cast_check = true:error
+# if (foo is int i)
+# {
+# }
+# // csharp_style_pattern_matching_over_is_with_cast_check = false:error
+# if (foo is int)
+# {
+#     var i = (int)foo;
+# }
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+
+# Key: csharp_style_pattern_matching_over_as_with_null_check
+# Valid values: true|false
+# Supports code style option: yes
+# // csharp_style_pattern_matching_over_as_with_null_check = true:error
+# if (foo is string s)
+# {
+# }
+# // csharp_style_pattern_matching_over_as_with_null_check = false:error
+# var s = foo as string;
+# if (s != null)
+# {
+# }
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+
+#
+# Null-checking preferences
+#
+
+# Key: csharp_style_throw_expression
+# Valid values: true|false
+# Supports code style option: yes
+# // csharp_style_throw_expression = true:error
+# this.foo = bar ?? throw new ArgumentNullException(nameof(bar));
+# // csharp_style_throw_expression = false:error
+# if (bar == null)
+# {
+#     throw new ArgumentNullException(nameof(bar));
+# }
+# this.foo = bar;
+csharp_style_throw_expression = true:suggestion
+
+# Key: csharp_style_conditional_delegate_call
+# Valid values: true|false
+# Supports code style option: yes
+# // csharp_style_conditional_delegate_call = true:error
+# this.foo?.Invoke(bar);
+# // csharp_style_conditional_delegate_call = false:error
+# if (this.foo != null)
+# {
+#     this.foo(bar);
+# }
+csharp_style_conditional_delegate_call = true:suggestion
+
+
+###############################
+# C# Formatting Rules         #
+###############################
+
+#
+# New line preferences
+#
+
+# Key: csharp_new_line_before_open_brace
+# Valid values: all|accessors|types|methods|properties|indexers|events|anonymous_methods|control_blocks|anonymous_types|object_collection_array_initalizers|lambdas|local_functions
+# Supports code style option: no
+# // csharp_new_line_before_open_brace = all
+# public void Foo()
+# {
+#     if (foo)
+#     {
+#     }
+# }
+# // csharp_new_line_before_open_brace = methods
+# public void Foo()
+# {
+#     if (foo) {
+#     }
+# }
+# // csharp_new_line_before_open_brace = methods,control_blocks
+# public void Foo()
+# {
+#     if (foo)
+#     {
+#     }
+# }
+csharp_new_line_before_open_brace = types,methods
+
+# Key: csharp_new_line_before_else
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_new_line_before_else = true
+# if (foo)
+# {
+# }
+# else
+# {
+# }
+# // csharp_new_line_before_else = false
+# if (foo)
+# {
+# } else
+# {
+# }
+csharp_new_line_before_else = false
+
+# Key: csharp_new_line_before_catch
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_new_line_before_catch = true
+# try
+# {
+# }
+# catch
+# {
+# }
+# // csharp_new_line_before_catch = false
+# try
+# {
+# } catch
+# {
+# }
+csharp_new_line_before_catch = false
+
+# Key: csharp_new_line_before_finally
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_new_line_before_finally = true
+# try
+# {
+# }
+# catch
+# {
+# }
+# finally
+# {
+# }
+# // csharp_new_line_before_finally = false
+# try
+# {
+# }
+# catch
+# {
+# } finally
+# {
+# }
+csharp_new_line_before_finally = false
+
+# Key: csharp_new_line_before_members_in_object_initializers
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_new_line_before_members_in_object_initializers = true
+# var foo = new Foo
+# {
+#     A = 42,
+#     B = 13
+# };
+# // csharp_new_line_before_members_in_object_initializers = false
+# var foo = new Foo
+# {
+#     A = 42, B = 13
+# };
+csharp_new_line_before_members_in_object_initializers = true
+
+# Key: csharp_new_line_before_members_in_anonymous_types
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_new_line_before_members_in_anonymous_types = true
+# var foo = new
+# {
+#     A = 42,
+#     B = 13
+# };
+# // csharp_new_line_before_members_in_anonymous_types = false
+# var foo = new
+# {
+#     A = 42, B = 13
+# };
+csharp_new_line_before_members_in_anonymous_types = true
+
+# Key: csharp_new_line_between_query_expression_clauses
+# Valid values: true|false
+# Supports code style option: no
+# NOTE: this option does not appear to have any effect, so I’ve documented what I believe is the intended effect.
+# // csharp_new_line_between_query_expression_clauses = true
+# var result = from x in xs
+#              select x;
+# // csharp_new_line_between_query_expression_clauses = false
+# var result = from x in xs select x;
+csharp_new_line_between_query_expression_clauses = true
+
+#
+# Indentation preferences
+#
+
+# Key: csharp_indent_block_contents
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_indent_block_contents = true
+# if (foo)
+# {
+#     var bar = 42;
+# }
+# // csharp_indent_block_contents = false
+# if (foo)
+# {
+# var bar = 42;
+# }
+csharp_indent_block_contents = true
+
+# Key: csharp_indent_braces
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_indent_braces = true
+# public void foo()
+#     {
+#     }
+# // csharp_indent_braces = false
+# public void foo()
+# {
+# }
+csharp_indent_braces = false
+
+# Key: csharp_indent_case_contents
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_indent_case_contents = true
+# switch (foo)
+# {
+#     case 42:
+#         break;
+#     case 13:
+#         break;
+# }
+# // csharp_indent_case_contents = false
+# switch (foo)
+# {
+#     case 42:
+#     break;
+#     case 13:
+#     break;
+# }
+csharp_indent_case_contents = true
+
+# Key: csharp_indent_labels
+# Valid values: flush_left|one_less_than_current|no_change
+# Supports code style option: no
+# // csharp_indent_labels = flush_left
+# public class C
+# {
+#     public void M()
+#     {
+# foo:
+#         var x =  42;
+#     }
+# }
+# // csharp_indent_labels = one_less_than_current
+# public class C
+# {
+#     public void M()
+#     {
+#     foo:
+#         var x =  42;
+#     }
+# }
+# // csharp_indent_labels = no_change
+# public class C
+# {
+#     public void M()
+#     {
+#         foo:
+#         var x =  42;
+#     }
+# }
+csharp_indent_labels = one_less_than_current
+
+# Key: csharp_indent_switch_labels
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_indent_switch_labels = true
+# switch (foo)
+# {
+#     case 42:
+#         break;
+#     case 13:
+#         break;
+# }
+# // csharp_indent_switch_labels = false
+# switch (foo)
+# {
+# case 42:
+#     break;
+# case 13:
+#     break;
+# }
+csharp_indent_switch_labels = true
+
+#
+# Space preferences
+#
+
+# Key: csharp_space_before_comma
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_before_comma = true
+# var foo = new[] { 1 , 2 , 3 };
+# // csharp_space_before_comma = false
+# var foo = new[] { 1, 2, 3 };
+csharp_space_before_comma = false
+
+# Key: csharp_space_after_cast
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_after_cast = true
+# var foo = (int) bar;
+# // csharp_space_after_cast = false
+# var foo = (int)bar;
+csharp_space_after_cast = false
+
+# Key: csharp_space_after_keywords_in_control_flow_statements
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_after_keywords_in_control_flow_statements = true
+# if (foo)
+# {
+# }
+# while (foo)
+# {
+# }
+# // csharp_space_after_keywords_in_control_flow_statements = false
+# if(foo)
+# {
+# }
+# while(foo)
+# {
+# }
+csharp_space_after_keywords_in_control_flow_statements = true
+
+# Key: csharp_space_after_semicolon_in_for_statement
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_after_semicolon_in_for_statement = true
+# for (var foo = 0; foo < 10; ++foo)
+# {
+# }
+# // csharp_space_after_semicolon_in_for_statement = false
+# for (var foo = 0;foo < 10;++foo)
+# {
+# }
+csharp_space_after_semicolon_in_for_statement = true
+
+# Key: csharp_space_before_semicolon_in_for_statement
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_before_semicolon_in_for_statement = true
+# for (var foo = 0 ; foo < 10 ; ++foo)
+# {
+# }
+# // csharp_space_before_semicolon_in_for_statement = false
+# for (var foo = 0; foo < 10; ++foo)
+# {
+# }
+csharp_space_before_semicolon_in_for_statement = false
+
+# Key: csharp_space_around_declaration_statements
+# Valid values: ignore|do_not_ignore
+# Supports code style option: no
+# // csharp_space_around_declaration_statements = ignore
+# var    foo    =    42;
+# // csharp_space_around_declaration_statements = do_not_ignore
+# var foo = 42;
+csharp_space_around_declaration_statements = ignore
+
+# Key: csharp_space_between_parentheses
+# Valid values: none|expressions|type_casts|control_flow_statements
+# Supports code style option: no
+# // csharp_space_between_parentheses = none
+# var foo = (int)bar;
+# while (foo < 42)
+# {
+#     ++foo;
+# }
+# // csharp_space_between_parentheses = type_casts
+# var foo = ( int )bar;
+# while (foo < 42)
+# {
+#     ++foo;
+# }
+# // csharp_space_between_parentheses = type_casts,control_flow_statements
+# var foo = ( int )bar;
+# while ( foo < 42 )
+# {
+#     ++foo;
+# }
+csharp_space_between_parentheses = none
+
+# Key: csharp_space_before_colon_in_inheritance_clause
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_before_colon_in_inheritance_clause = true
+# public class Foo : Bar
+# // csharp_space_before_colon_in_inheritance_clause = false
+# public class Foo: Bar
+csharp_space_before_colon_in_inheritance_clause = true
+
+# Key: csharp_space_after_colon_in_inheritance_clause
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_after_colon_in_inheritance_clause = true
+# public class Foo : Bar
+# // csharp_space_after_colon_in_inheritance_clause = false
+# public class Foo :Bar
+csharp_space_after_colon_in_inheritance_clause = true
+
+# Key: csharp_space_around_binary_operators
+# Valid values: before_and_after|ignore|none
+# Supports code style option: no
+# NOTE: currently thwarted by this bug.
+# // csharp_space_around_binary_operators = before_and_after
+# var foo = 42 + 42;
+# // csharp_space_around_binary_operators = ignore
+# var foo = 42+   42;
+# // csharp_space_around_binary_operators = none
+# var foo = 42+42;
+csharp_space_around_binary_operators = before_and_after
+
+# Key: csharp_space_between_method_declaration_name_and_open_parenthesis
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_between_method_declaration_name_and_open_parenthesis = true
+# public void Foo ()
+# {
+# }
+# // csharp_space_between_method_declaration_name_and_open_parenthesis = false
+# public void Foo()
+# {
+# }
+csharp_space_between_method_declaration_name_and_open_parenthesis = false
+
+# Key: csharp_space_between_method_declaration_empty_parameter_list_parentheses
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_between_method_declaration_empty_parameter_list_parentheses = true
+# public void Foo( )
+# {
+# }
+# // csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
+# public void Foo()
+# {
+# }
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
+
+# Key: csharp_space_between_method_declaration_parameter_list_parentheses
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_between_method_declaration_parameter_list_parentheses = true
+# public void Foo( int bar )
+# {
+# }
+# // csharp_space_between_method_declaration_parameter_list_parentheses = false
+# public void Foo(int bar)
+# {
+# }
+csharp_space_between_method_declaration_parameter_list_parentheses = true
+
+# Key: csharp_space_between_method_call_name_and_opening_parenthesis
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_between_method_call_name_and_opening_parenthesis = true
+# this.Foo ();
+# // csharp_space_between_method_call_name_and_opening_parenthesis = false
+# this.Foo();
+csharp_space_between_method_call_name_and_opening_parenthesis = false
+
+# Key: csharp_space_between_method_call_empty_parameter_list_parentheses
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_between_method_call_empty_parameter_list_parentheses = true
+# this.Foo( );
+# // csharp_space_between_method_call_empty_parameter_list_parentheses = false
+# this.Foo();
+csharp_space_between_method_call_empty_parameter_list_parentheses = false
+
+# Key: csharp_space_between_method_call_parameter_list_parentheses
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_between_method_call_parameter_list_parentheses = true
+# this.Foo( 42 );
+# // csharp_space_between_method_call_parameter_list_parentheses = false
+# this.Foo(42);
+csharp_space_between_method_call_parameter_list_parentheses = false
+
+# Key: csharp_space_after_comma
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_after_comma = true
+# var foo = new[] { 1, 2, 3 };
+# // csharp_space_after_comma = false
+# var foo = new[] { 1,2,3 };
+csharp_space_after_comma = true
+
+# Key: csharp_space_after_dot
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_after_dot = true
+# this. Foo();
+# // csharp_space_after_dot = false
+# this.Foo();
+csharp_space_after_dot = false
+
+# Key: csharp_space_before_dot
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_before_dot = true
+# this .Foo();
+# // csharp_space_before_dot = false
+# this.Foo();
+csharp_space_before_dot = false
+
+# Key: csharp_space_between_square_brackets
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_between_square_brackets = true
+# foo[ 42 ] = 13;
+# // csharp_space_between_square_brackets = false
+# foo[42] = 13;
+csharp_space_between_square_brackets = false
+
+# Key: csharp_space_before_open_square_brackets
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_before_open_square_brackets = true
+# var foo = bar [42];
+# // csharp_space_before_open_square_brackets = false
+# var foo = bar[42];
+csharp_space_before_open_square_brackets = false
+
+# Key: csharp_space_between_empty_square_brackets
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_space_between_empty_square_brackets = true
+# var foo = new [ ] { 42, 13 };
+# // csharp_space_between_empty_square_brackets = false
+# var foo = new [] { 42, 13 };
+csharp_space_between_empty_square_brackets = false
+
+#
+# Wrapping preferences
+#
+
+# Key: csharp_preserve_single_line_statements
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_preserve_single_line_statements = true
+# if (true) DoSomething();
+# // csharp_preserve_single_line_statements = false
+# if (true)
+#     DoSomething();
+csharp_preserve_single_line_statements = true
+
+# Key: csharp_preserve_single_line_blocks
+# Valid values: true|false
+# Supports code style option: no
+# // csharp_preserve_single_line_blocks = true
+# { DoSomething(); }
+# // csharp_preserve_single_line_blocks = false
+# {
+#     DoSomething();
+# }
+csharp_preserve_single_line_blocks = true

@@ -5,11 +5,9 @@
     <Category Category="{1EDA5DD4-927A-43a7-810E-7FD247D0DA1D}" name="Environment_FontsAndColors" Package="{DA9FB551-C724-11d0-AE1F-00A0C90FFFC3}" PackageName="Visual Studio Environment Package" RegisteredName="Environment_FontsAndColors">
       <FontsAndColors Version="2.0">
         <Categories>
-          <Category CharSet="0" FontIsDefault="No" FontSize="0" GUID="{B0E6A221-92FD-4D72-BE80-04A36B591FCB}">
+          <Category CharSet="0" FontIsDefault="No" FontName="Consolas" FontSize="0" GUID="{B0E6A221-92FD-4D72-BE80-04A36B591FCB}">
             <Items>
-              <Item Background="0x00000001" Foreground="0x00000966" Name="VSC.BuildOutput.BuildSummary.Failed" />
-              <Item Background="0x00000001" Foreground="0x00000966" Name="VSC.Output.Error" />
-              <Item Background="0x00000001" Foreground="0x00000966" Name="VSC.TfsOutput.Error" />
+              <Item Background="0x00000001" Foreground="0x005D3B09" Name="VSC.Output.Information" />
               <Item Background="0x00000001" Foreground="0x00005D66" Name="VSC.Output.Warning" />
               <Item Background="0x00000001" Foreground="0x00005D66" Name="VSC.TfsOutput.Warning" />
               <Item Background="0x00000001" Foreground="0x00194D19" Name="VSC.BuildOutput.BuildSummary" />
@@ -17,34 +15,36 @@
               <Item Background="0x00000001" Foreground="0x00194D19" Name="VSC.BuildOutput.BuildSummary.Total" />
               <Item Background="0x00000001" Foreground="0x00194D19" Name="VSC.BuildOutput.ProjectBuildStart" />
               <Item Background="0x00000001" Foreground="0x00194D19" Name="VSC.TfsOutput.Success" />
-              <Item Background="0x00000001" Foreground="0x005D3B09" Name="VSC.Output.Information" />
+              <Item Background="0x00000001" Foreground="0x00000966" Name="VSC.BuildOutput.BuildSummary.Failed" />
+              <Item Background="0x00000001" Foreground="0x00000966" Name="VSC.Output.Error" />
+              <Item Background="0x00000001" Foreground="0x00000966" Name="VSC.TfsOutput.Error" />
               <Item Background="0x00000001" Foreground="0x00727272" Name="VSC.BuildOutput.ProjectBuildSkipped" />
               <Item Background="0x00000001" Foreground="0x00999999" Name="VSC.BuildOutput.CodeContracts.Information" />
               <Item Background="0x00000001" Foreground="0x00999999" Name="VSC.Output.Text" />
-              <Item Background="0x003AFFFF" BoldFont="Yes" Foreground="0x005D3B09" Name="VSC.FindResultsOutput.Match" />
+              <Item Background="0x003AFFFF" Foreground="0x00000966" Name="VSC.FindResultsOutput.Match" />
             </Items>
           </Category>
-          <Category CharSet="1" FontIsDefault="No" FontName="Consolas" FontSize="11" GUID="{58E96763-1D3B-4E05-B6BA-FF7115FD0B7B}">
+          <Category CharSet="0" FontIsDefault="No" FontName="Consolas" FontSize="1" GUID="{E0187991-B458-4F7E-8CA9-42C9A573B56C}">
             <Items />
           </Category>
-          <Category CharSet="1" FontIsDefault="No" FontName="Consolas" FontSize="11" GUID="{75A05685-00A8-4DED-BAE5-E7A50BFA929A}">
+          <Category CharSet="0" FontIsDefault="No" FontName="Consolas" FontSize="2" GUID="{75A05685-00A8-4DED-BAE5-E7A50BFA929A}">
             <Items />
           </Category>
-          <Category CharSet="1" FontIsDefault="No" FontName="Consolas" FontSize="11" GUID="{E0187991-B458-4F7E-8CA9-42C9A573B56C}">
+          <Category CharSet="0" FontIsDefault="No" FontName="Consolas" FontSize="11" GUID="{FF349800-EA43-46C1-8C98-878E78F46501}">
             <Items />
           </Category>
-          <Category CharSet="1" FontIsDefault="No" FontName="Consolas" FontSize="11" GUID="{FF349800-EA43-46C1-8C98-878E78F46501}">
+          <Category CharSet="0" FontIsDefault="No" FontName="Consolas" FontSize="20" GUID="{58E96763-1D3B-4E05-B6BA-FF7115FD0B7B}">
             <Items />
           </Category>
-          <Category CharSet="1" FontIsDefault="No" FontName="Segoe UI" FontSize="9" GUID="{B36B0228-DBAD-4DB0-B9C7-2AD3E572010F}">
+          <Category CharSet="0" FontIsDefault="No" FontName="Segoe UI" FontSize="9" GUID="{B36B0228-DBAD-4DB0-B9C7-2AD3E572010F}">
             <Items>
               <Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x00000000" Name="Even Row Items" />
               <Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x00000000" Name="Identical content" />
               <Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x00000000" Name="Odd Row Items" />
               <Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x00000000" Name="Source Only" />
               <Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x00000000" Name="Target Only" />
-              <Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x000014E5" Name="Different content" />
               <Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x006D6D6D" Name="Not Downloaded" />
+              <Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x000014E5" Name="Different content" />
             </Items>
           </Category>
         </Categories>
