@@ -4,7 +4,7 @@ sortxml
 This is a very simple utility that prettifies and sorts xml files.
 It uses the Microsoft XML .NET namespace.
 
-Copyright 2014 Kody Brown (@wasatchwizard)
+Copyright 2014-2019 Kody Brown (@wasatchwizard)
 
     USAGE: sortxml.exe [options] infile [outfile]
 

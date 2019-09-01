@@ -1,2 +1,59 @@
 <?xml version="1.0"?>
-<UserSettings><ApplicationIdentity version="12.0"/><ToolsOptions><ToolsOptionsCategory name="Environment" RegisteredName="Environment"/></ToolsOptions><Category name="Environment_Group" RegisteredName="Environment_Group"><Category name="Environment_FontsAndColors" Category="{1EDA5DD4-927A-43a7-810E-7FD247D0DA1D}" Package="{DA9FB551-C724-11d0-AE1F-00A0C90FFFC3}" RegisteredName="Environment_FontsAndColors" PackageName="Visual Studio Environment Package"><PropertyValue name="Version">2</PropertyValue><FontsAndColors Version="2.0"><Theme Id="{A4D6A176-B948-4B29-8C66-53C97A1ED7D0}"/><Categories><Category GUID="{58E96763-1D3B-4E05-B6BA-FF7115FD0B7B}" FontName="Consolas" FontSize="11" CharSet="1" FontIsDefault="No"><Items/></Category><Category GUID="{75A05685-00A8-4DED-BAE5-E7A50BFA929A}" FontName="Consolas" FontSize="11" CharSet="1" FontIsDefault="No"><Items/></Category><Category GUID="{B0E6A221-92FD-4D72-BE80-04A36B591FCB}" FontSize="0" CharSet="0" FontIsDefault="No"><Items><Item Name="VSC.Output.Text" Foreground="0x00999999" Background="0x00000001"/><Item Name="VSC.Output.Information" Foreground="0x005D3B09" Background="0x00000001"/><Item Name="VSC.Output.Warning" Foreground="0x00005D66" Background="0x00000001"/><Item Name="VSC.Output.Error" Foreground="0x00000966" Background="0x00000001"/><Item Name="VSC.BuildOutput.BuildSummary" Foreground="0x00194D19" Background="0x00000001"/><Item Name="VSC.BuildOutput.BuildSummary.Success" Foreground="0x00194D19" Background="0x00000001"/><Item Name="VSC.BuildOutput.BuildSummary.Failed" Foreground="0x00000966" Background="0x00000001"/><Item Name="VSC.BuildOutput.BuildSummary.Total" Foreground="0x00194D19" Background="0x00000001"/><Item Name="VSC.BuildOutput.CodeContracts.Information" Foreground="0x00999999" Background="0x00000001"/><Item Name="VSC.BuildOutput.ProjectBuildStart" Foreground="0x00194D19" Background="0x00000001"/><Item Name="VSC.BuildOutput.ProjectBuildSkipped" Foreground="0x00727272" Background="0x00000001"/><Item Name="VSC.TfsOutput.Error" Foreground="0x00000966" Background="0x00000001"/><Item Name="VSC.TfsOutput.Warning" Foreground="0x00005D66" Background="0x00000001"/><Item Name="VSC.TfsOutput.Success" Foreground="0x00194D19" Background="0x00000001"/><Item Name="VSC.FindResultsOutput.Match" Foreground="0x005D3B09" Background="0x003AFFFF" BoldFont="Yes"/></Items></Category><Category GUID="{B36B0228-DBAD-4DB0-B9C7-2AD3E572010F}" FontName="Segoe UI" FontSize="9" CharSet="1" FontIsDefault="No"><Items><Item Name="Different content" Foreground="0x000014E5" Background="0x00FFFFFF" BoldFont="No"/><Item Name="Identical content" Foreground="0x00000000" Background="0x00FFFFFF" BoldFont="No"/><Item Name="Source Only" Foreground="0x00000000" Background="0x00FFFFFF" BoldFont="No"/><Item Name="Target Only" Foreground="0x00000000" Background="0x00FFFFFF" BoldFont="No"/><Item Name="Not Downloaded" Foreground="0x006D6D6D" Background="0x00FFFFFF" BoldFont="No"/><Item Name="Even Row Items" Foreground="0x00000000" Background="0x00FFFFFF" BoldFont="No"/><Item Name="Odd Row Items" Foreground="0x00000000" Background="0x00FFFFFF" BoldFont="No"/></Items></Category><Category GUID="{E0187991-B458-4F7E-8CA9-42C9A573B56C}" FontName="Consolas" FontSize="11" CharSet="1" FontIsDefault="No"><Items/></Category><Category GUID="{FF349800-EA43-46C1-8C98-878E78F46501}" FontName="Consolas" FontSize="11" CharSet="1" FontIsDefault="No"><Items/></Category></Categories></FontsAndColors></Category></Category></UserSettings>
+<UserSettings>
+	<ApplicationIdentity version="12.0"/>
+	<Category name="Environment_Group" RegisteredName="Environment_Group">
+		<Category Category="{1EDA5DD4-927A-43a7-810E-7FD247D0DA1D}" name="Environment_FontsAndColors" Package="{DA9FB551-C724-11d0-AE1F-00A0C90FFFC3}" PackageName="Visual Studio Environment Package" RegisteredName="Environment_FontsAndColors">
+			<FontsAndColors Version="2.0">
+				<Categories>
+					<Category CharSet="0" FontIsDefault="No" FontName="Consolas" FontSize="0" GUID="{B0E6A221-92FD-4D72-BE80-04A36B591FCB}">
+						<Items>
+							<Item Background="0x00000001" Foreground="0x00000966" Name="VSC.BuildOutput.BuildSummary.Failed"/>
+							<Item Background="0x00000001" Foreground="0x00000966" Name="VSC.TfsOutput.Error"/>
+							<Item Background="0x00000001" Foreground="0x00005D66" Name="VSC.Output.Warning"/>
+							<Item Background="0x00000001" Foreground="0x00194D19" Name="VSC.BuildOutput.ProjectBuildStart"/>
+							<Item Background="0x00000001" Foreground="0x00194D19" Name="VSC.TfsOutput.Success"/>
+							<Item Background="0x00000001" Foreground="0x00005D66" Name="VSC.TfsOutput.Warning"/>
+							<Item Background="0x00000001" Foreground="0x005D3B09" Name="VSC.Output.Information"/>
+							<Item Background="0x00000001" Foreground="0x00727272" Name="VSC.BuildOutput.ProjectBuildSkipped"/>
+							<Item Background="0x00000001" Foreground="0x00999999" Name="VSC.BuildOutput.CodeContracts.Information"/>
+							<Item Background="0x00000001" Foreground="0x00999999" Name="VSC.Output.Text"/>
+							<Item Background="0x003AFFFF" Foreground="0x00000966" Name="VSC.FindResultsOutput.Match"/>
+							<Item Background="0x00000001" Foreground="0x00194D19" Name="VSC.BuildOutput.BuildSummary"/>
+							<Item Background="0x00000001" Foreground="0x00194D19" Name="VSC.BuildOutput.BuildSummary.Success"/>
+							<Item Background="0x00000001" Foreground="0x00194D19" Name="VSC.BuildOutput.BuildSummary.Total"/>
+							<Item Background="0x00000001" Name="VSC.Output.Error" Foreground="0x00000966" />
+						</Items>
+					</Category>
+					<Category CharSet="0" FontIsDefault="No" FontName="Consolas" FontSize="1" GUID="{E0187991-B458-4F7E-8CA9-42C9A573B56C}">
+						<Items/>
+					</Category>
+					<Category CharSet="0" FontIsDefault="No" FontName="Segoe UI" FontSize="9" GUID="{B36B0228-DBAD-4DB0-B9C7-2AD3E572010F}">
+						<Items>
+							<Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x00000000" Name="Even Row Items"/>
+							<Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x00000000" Name="Odd Row Items"/>
+							<Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x00000000" Name="Source Only"/>
+							<Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x00000000" Name="Target Only"/>
+							<Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x00000000" Name="Identical content"/>
+							<Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x000014E5" Name="Different content"/>
+							<Item Background="0x00FFFFFF" BoldFont="No" Foreground="0x006D6D6D" Name="Not Downloaded"/>
+						</Items>
+					</Category>
+					<Category CharSet="0" FontIsDefault="No" FontName="Consolas" FontSize="2" GUID="{75A05685-00A8-4DED-BAE5-E7A50BFA929A}">
+						<Items/>
+					</Category>
+					<Category CharSet="0" FontIsDefault="No" FontName="Consolas" FontSize="11" GUID="{FF349800-EA43-46C1-8C98-878E78F46501}">
+						<Items/>
+					</Category>
+					<Category CharSet="0" FontIsDefault="No" FontName="Consolas" FontSize="20" GUID="{58E96763-1D3B-4E05-B6BA-FF7115FD0B7B}">
+						<Items/>
+					</Category>
+				</Categories>
+				<Theme Id="{A4D6A176-B948-4B29-8C66-53C97A1ED7D0}"/>
+			</FontsAndColors>
+			<PropertyValue name="Version">2</PropertyValue>
+		</Category>
+	</Category>
+	<ToolsOptions>
+		<ToolsOptionsCategory name="Environment" RegisteredName="Environment"/>
+	</ToolsOptions>
+</UserSettings>

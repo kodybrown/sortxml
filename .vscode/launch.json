@@ -1,0 +1,50 @@
+{
+	// Use IntelliSense to find out which attributes exist for C# debugging
+	// Use hover for the description of the existing attributes
+	// For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "sortxml: b.xml",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "sortxml: build",
+			"program": "${workspaceFolder}/bin/Debug/netcoreapp2.2/sortxml.dll",
+			"args": [
+				"${workspaceFolder}/tests/b.xml",
+				"${workspaceFolder}/tests/b_sorted.xml",
+			],
+			"cwd": "${workspaceFolder}",
+			"console": "internalConsole",
+			"stopAtEntry": false
+		},
+		{
+			"name": "sortxml: c.xml",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "sortxml: build",
+			"program": "${workspaceFolder}/bin/Debug/netcoreapp2.2/sortxml.dll",
+			"args": [
+				"${workspaceFolder}/tests/c.xml",
+				"${workspaceFolder}/tests/c_sorted.xml",
+			],
+			"cwd": "${workspaceFolder}",
+			"console": "internalConsole",
+			"stopAtEntry": false
+		},
+		{
+			"name": "sortxml: g.xml",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "sortxml: build",
+			"program": "${workspaceFolder}/bin/Debug/netcoreapp2.2/sortxml.dll",
+			"args": [
+				"${workspaceFolder}/tests/g.xml",
+				"${workspaceFolder}/tests/g_sorted.xml",
+			],
+			"cwd": "${workspaceFolder}",
+			"console": "internalConsole",
+			"stopAtEntry": false
+		}
+	]
+}
