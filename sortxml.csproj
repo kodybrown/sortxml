@@ -1,4 +1,3 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<ProjectGuid>{F015ED1D-89EF-4251-9788-D581536501F2}</ProjectGuid>
@@ -8,9 +7,9 @@
 		<Authors>thewizard@wasatchwizard.com</Authors>
 		<PackageId>sortxml</PackageId>
 		<Product>powertools</Product>
-		<Version>1.0.1907.2519</Version>
-		<AssemblyVersion>1.0.1907.2519</AssemblyVersion>
-		<FileVersion>1.0.1907.2519</FileVersion>
+		<Version></Version>
+		<AssemblyVersion></AssemblyVersion>
+		<FileVersion></FileVersion>
 		<Description />
 		<Copyright>Copyright (C) 2014-2019</Copyright>
 		<AssemblyName>sortxml</AssemblyName>

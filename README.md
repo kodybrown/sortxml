@@ -6,7 +6,18 @@ It uses the Microsoft XML .NET namespace.
 
 Copyright 2014-2019 Kody Brown (@wasatchwizard)
 
+## Build
+
+    PS> dotnet build .\sortxml.csproj -c Debug /property:AssemblyVersion=$(GitVersion -ShowVariable SemVer) /property:Version=$(GitVersion -ShowVariable InformationalVersion) /property:FileVersion=$(GitVersion -ShowVariable SemVer)
+
+    PS> dotnet publish .\sortxml.csproj -c Debug -r win-x64 /property:AssemblyVersion=$(GitVersion -ShowVariable SemVer) /property:Version=$(GitVersion -ShowVariable InformationalVersion) /property:FileVersion=$(GitVersion -ShowVariable SemVer)
+
+* Install GitVersion from here: https://github.com/GitTools/GitVersion/releases.
+* Build platforms: https://docs.microsoft.com/en-us/dotnet/core/rid-catalog.
+
 ## Code Format
+
+There is an .editorconfig and matching omnisharp.json file included.
 
 Install the dotnet format tool.
 
