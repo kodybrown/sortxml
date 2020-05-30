@@ -52,7 +52,7 @@ jobs:
       - name: "Publish: win-x64"
         run: |
           dotnet restore --runtime win-x64
-          dotnet publish --nologo --configuration Release --runtime win-x64 --framework netcoreapp3.1 --output ./win-x64/ --self-contained false
+          dotnet publish --nologo --configuration Release --runtime win-x64 --framework netcoreapp3.1 --output ./win-x64/ --self-contained false /property:AssemblyVersion=$(GitVersion -ShowVariable SemVer) /property:Version=$(GitVersion -ShowVariable InformationalVersion) /property:FileVersion=$(GitVersion -ShowVariable SemVer)
           zip --junk-paths ./${{ env.APP_NAME }}-win-x64-${{ env.TAG_NAME }}.zip ./win-x64/*
 
       - name: "Upload: win-x64"
