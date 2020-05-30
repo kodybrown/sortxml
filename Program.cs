@@ -1,5 +1,5 @@
 ﻿/*!
-	Copyright (C) 2014-2019 Kody Brown (@wasatchwizard)
+	Copyright (c) 2014-2020 Kody Brown (@wasatchwizard)
 
 	MIT License:
 
@@ -279,10 +279,10 @@ namespace sortxml
         {
             Console.WriteLine("sortxml");
             Console.WriteLine("");
-            Console.WriteLine("This is a small utility that prettifies and sorts xml files.");
+            Console.WriteLine("This is a small utility that sorts (and prettifies) xml files.");
             Console.WriteLine("It uses the Microsoft XML .NET namespace.");
             Console.WriteLine("");
-            Console.WriteLine("Copyright 2014-2019 Kody Brown (@wasatchwizard)");
+            Console.WriteLine("Copyright (c) 2014-2020 Kody Brown (@wasatchwizard)");
             Console.WriteLine("");
             Console.WriteLine("    USAGE: sortxml.exe [options] infile [outfile]");
             Console.WriteLine("");
