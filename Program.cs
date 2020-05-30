@@ -45,20 +45,19 @@ namespace sortxml
 
         static int Main( string[] arguments )
         {
-            XmlDocument doc;
-            string inf = "";
-            string outf = "";
+            var inf = "";
+            var outf = "";
 
-            doc = new XmlDocument();
+            var doc = new XmlDocument();
 
-            for (int i = 0; i < arguments.Length; i++) {
-                string a = arguments[i];
+            for (var i = 0; i < arguments.Length; i++) {
+                var a = arguments[i];
 
                 if (a[0] == '-' || a[0] == '/' || a[0] == '!') {
                     while (a[0] == '-' || a[0] == '/') {
                         a = a.Substring(1);
                     }
-                    string al = a.ToLower();
+                    var al = a.ToLower();
 
                     if (al.Equals("?") || al.Equals("help")) {
                         usage();
@@ -164,16 +163,16 @@ namespace sortxml
 
             // Remove, sort, then re-add the node's children.
             if (sort_node && node.ChildNodes != null && node.ChildNodes.Count > 0) {
-                List<XmlNode> nodes = new List<XmlNode>(node.ChildNodes.Count);
+                var nodes = new List<XmlNode>(node.ChildNodes.Count);
 
-                for (int i = node.ChildNodes.Count - 1; i >= 0; i--) {
+                for (var i = node.ChildNodes.Count - 1; i >= 0; i--) {
                     nodes.Add(node.ChildNodes[i]);
                     node.RemoveChild(node.ChildNodes[i]);
                 }
 
                 nodes.Sort(SortDelegate);
 
-                for (int i = 0; i < nodes.Count; i++) {
+                for (var i = 0; i < nodes.Count; i++) {
                     node.AppendChild(nodes[i]);
                 }
             }
@@ -181,24 +180,20 @@ namespace sortxml
 
         static int SortDelegate( XmlNode a, XmlNode b )
         {
-            XmlAttribute aa, bb;
-            XmlAttributeCollection col1, col2;
-            int result;
-
-            result = string.Compare(a.Name, b.Name, sort_node_comp);
+            var result = string.Compare(a.Name, b.Name, sort_node_comp);
 
             // NOTE: Always sort the _nodes_ based on its attributes (when the
             //       name matches), but don't actually sort the node's attributes.
             //       Sorting attributes, if specified, is done before node sorting happens..
 
             if (result == 0) {
-                col1 = (a.Attributes.Count >= b.Attributes.Count) ? a.Attributes : b.Attributes;
-                col2 = (a.Attributes.Count >= b.Attributes.Count) ? b.Attributes : a.Attributes;
+                var col1 = (a.Attributes.Count >= b.Attributes.Count) ? a.Attributes : b.Attributes;
+                var col2 = (a.Attributes.Count >= b.Attributes.Count) ? b.Attributes : a.Attributes;
 
-                for (int i = 0; i < col1.Count; i++) {
+                for (var i = 0; i < col1.Count; i++) {
                     if (i < col2.Count) {
-                        aa = col1[i];
-                        bb = col2[i];
+                        var aa = col1[i];
+                        var bb = col2[i];
                         result = string.Compare(aa.Name, bb.Name, sort_attr_comp);
                         if (result == 0) {
                             result = string.Compare(aa.Value, bb.Value, sort_attr_comp);
@@ -240,16 +235,16 @@ namespace sortxml
         {
             // Remove, sort, then re-add the attributes to the collection.
             if (sort_attr && col != null && col.Count > 0) {
-                List<XmlAttribute> attrs = new List<XmlAttribute>(col.Count);
+                var attrs = new List<XmlAttribute>(col.Count);
 
-                for (int i = col.Count - 1; i >= 0; i--) {
+                for (var i = col.Count - 1; i >= 0; i--) {
                     attrs.Add(col[i]);
                     col.RemoveAt(i);
                 }
 
                 SortAttributeList(attrs);
 
-                for (int i = 0; i < attrs.Count; i++) {
+                for (var i = 0; i < attrs.Count; i++) {
                     col.Append(attrs[i]);
                 }
             }
@@ -257,10 +252,8 @@ namespace sortxml
 
         static void SortAttributeList( List<XmlAttribute> attrs )
         {
-            int result;
-
             attrs.Sort(delegate ( XmlAttribute a, XmlAttribute b ) {
-                result = string.Compare(a.Name, b.Name, sort_attr_comp);
+                var result = string.Compare(a.Name, b.Name, sort_attr_comp);
                 if (result == 0) {
                     return string.Compare(a.Value, b.Value, sort_attr_comp);
                 } else if (!string.IsNullOrEmpty(primary_attr)) {

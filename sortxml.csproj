@@ -11,7 +11,7 @@
     <Company></Company>
     <Authors>thewizard@wasatchwizard.com</Authors>
     <Copyright>Copyright (c) 2014-2020 Kody Brown</Copyright>
-    <RepositoryUrl>https://github.com/kodybrown/fixeol</RepositoryUrl>
+    <RepositoryUrl>https://github.com/kodybrown/sortxml</RepositoryUrl>
     <Platforms>AnyCPU;x64;x86</Platforms>
     <RootNamespace>Bricksoft.sortxml</RootNamespace>
     <StartupObject>sortxml.Program</StartupObject>

@@ -1,12 +1,11 @@
 # sortxml
 
 ![dotnet-core-build](https://github.com/kodybrown/sortxml/workflows/dotnet-core-build/badge.svg)
+![dotnet-core-release](https://github.com/kodybrown/sortxml/workflows/dotnet-core-release/badge.svg)
+
+Simple utility that sorts (and prettifies) xml files. It uses the Microsoft XML .NET namespace.
 
 ----
-
-This is a very simple utility that prettifies and sorts xml files. It uses the Microsoft XML .NET namespace.
-
-Copyright 2014-2020 Kody Brown (@wasatchwizard)
 
 ## Build
 

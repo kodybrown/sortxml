@@ -17,9 +17,7 @@ jobs:
       - name: Get variables
         run: |
           echo ::set-env name=APP_NAME::sortxml
-          echo APP_NAME=${{ env.APP_NAME }}
           echo ::set-env name=TAG_NAME::${GITHUB_REF#refs/*/}
-          echo TAG_NAME=${{ env.TAG_NAME }}
 
       - name: Get source
         uses: actions/checkout@master
