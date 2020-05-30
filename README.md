@@ -10,11 +10,10 @@ Simple utility that sorts (and prettifies) xml files. It uses the Microsoft XML 
 ## Build
 
 ```powershell
-dotnet build .\sortxml.csproj -c Debug /property:AssemblyVersion=$(GitVersion -ShowVariable SemVer) /property:Version=$(GitVersion -ShowVariable InformationalVersion) /property:FileVersion=$(GitVersion -ShowVariable SemVer)
-dotnet publish .\sortxml.csproj -c Debug -r win-x64 /property:AssemblyVersion=$(GitVersion -ShowVariable SemVer) /property:Version=$(GitVersion -ShowVariable InformationalVersion) /property:FileVersion=$(GitVersion -ShowVariable SemVer)
+dotnet build .\sortxml.csproj -c Debug
+dotnet publish .\sortxml.csproj -c Debug -r win-x64
 ```
 
-* Install GitVersion from here: https://github.com/GitTools/GitVersion/releases.
 * Build platforms: https://docs.microsoft.com/en-us/dotnet/core/rid-catalog.
 
 ## Code Format
