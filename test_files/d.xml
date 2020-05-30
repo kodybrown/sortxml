@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Check if object is not null (if stmt)</Title>
+			<Author>Kody Brown</Author>
+			<Description>Check if object is not null (if stmt)</Description>
+			<Shortcut>notnull</Shortcut>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>obj</ID>
+					<ToolTip>The object to check for null.</ToolTip>
+					<Default>objValue</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp">
+				<![CDATA[if (null != $obj$) {
+					$end$
+				}]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Check if object is null (if stmt)</Title>
+			<Author>Kody Brown</Author>
+			<Description>Check if object is null (if stmt)</Description>
+			<Shortcut>isnull</Shortcut>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>obj</ID>
+					<ToolTip>The object to check for null.</ToolTip>
+					<Default>objValue</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp">
+				<![CDATA[if (null == $obj$) {
+					$end$
+				}]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
