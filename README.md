@@ -5,6 +5,8 @@
 
 Simple utility that sorts (and prettifies) xml files. It uses the Microsoft XML .NET namespace.
 
+Click here for the [latest release](https://github.com/kodybrown/sortxml/releases/latest/).
+
 ----
 
 ## Build
