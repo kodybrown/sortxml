@@ -1,5 +1,5 @@
 ﻿/*!
-	Copyright (C) 2014-2019 Kody Brown (@wasatchwizard)
+	Copyright (C) 2014-2020 Kody Brown (@wasatchwizard)
 	
 	MIT License:
 	
