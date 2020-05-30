@@ -1,0 +1,39 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "sortxml: build",
+            "command": "dotnet",
+            "type": "process",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "args": [
+                "build",
+                "-c",
+                "Debug",
+                "${workspaceFolder}/sortxml.csproj",
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "sortxml: build release",
+            "command": "dotnet",
+            "type": "process",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "args": [
+                "publish",
+                "-c",
+                "Release",
+                "-r",
+                "win10-x64",
+                "${workspaceFolder}/sortxml.csproj",
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

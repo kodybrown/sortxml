@@ -1,18 +1,18 @@
 ﻿/*!
-	Copyright (C) 2014 Kody Brown (@wasatchwizard)
-	
+	Copyright (c) 2014-2020 Kody Brown (@wasatchwizard)
+
 	MIT License:
-	
+
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to
 	deal in the Software without restriction, including without limitation the
 	rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
 	sell copies of the Software, and to permit persons to whom the Software is
 	furnished to do so, subject to the following conditions:
-	
+
 	The above copyright notice and this permission notice shall be included in
 	all copies or substantial portions of the Software.
-	
+
 	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,33 +33,31 @@ namespace sortxml
 {
     class Program
     {
-        static bool sort_node = true,
-            sort_attr = true,
-            pretty = true,
-            pause = false,
-            overwriteSelf = false;
-        static StringComparison
-            sort_node_comp = StringComparison.CurrentCulture, // Default to case-sensitive sorting.
-            sort_attr_comp = StringComparison.CurrentCulture;
+        static bool sort_node = true;
+        static bool sort_attr = true;
+        static bool pretty = true;
+        static bool pause = false;
+        static bool overwriteSelf = false;
+        static StringComparison sort_node_comp = StringComparison.CurrentCulture; // Default to case-sensitive sorting.
+        static StringComparison sort_attr_comp = StringComparison.CurrentCulture;
 
         static string primary_attr = "";
 
         static int Main( string[] arguments )
         {
-            XmlDocument doc;
-            string inf = "",
-                outf = "";
+            var inf = "";
+            var outf = "";
 
-            doc = new XmlDocument();
+            var doc = new XmlDocument();
 
-            for (int i = 0; i < arguments.Length; i++) {
-                string a = arguments[i];
+            for (var i = 0; i < arguments.Length; i++) {
+                var a = arguments[i];
 
                 if (a[0] == '-' || a[0] == '/' || a[0] == '!') {
                     while (a[0] == '-' || a[0] == '/') {
                         a = a.Substring(1);
                     }
-                    string al = a.ToLower();
+                    var al = a.ToLower();
 
                     if (al.Equals("?") || al.Equals("help")) {
                         usage();
@@ -120,7 +118,7 @@ namespace sortxml
             }
 
             if (sort_attr) {
-                if (primary_attr == null || primary_attr.Length == 0) {
+                if (string.IsNullOrEmpty(primary_attr)) {
                     primary_attr = "GUID";
                 }
                 SortNodeAttrs(doc.DocumentElement);
@@ -165,16 +163,16 @@ namespace sortxml
 
             // Remove, sort, then re-add the node's children.
             if (sort_node && node.ChildNodes != null && node.ChildNodes.Count > 0) {
-                List<XmlNode> nodes = new List<XmlNode>(node.ChildNodes.Count);
+                var nodes = new List<XmlNode>(node.ChildNodes.Count);
 
-                for (int i = node.ChildNodes.Count - 1; i >= 0; i--) {
+                for (var i = node.ChildNodes.Count - 1; i >= 0; i--) {
                     nodes.Add(node.ChildNodes[i]);
                     node.RemoveChild(node.ChildNodes[i]);
                 }
 
                 nodes.Sort(SortDelegate);
 
-                for (int i = 0; i < nodes.Count; i++) {
+                for (var i = 0; i < nodes.Count; i++) {
                     node.AppendChild(nodes[i]);
                 }
             }
@@ -182,24 +180,20 @@ namespace sortxml
 
         static int SortDelegate( XmlNode a, XmlNode b )
         {
-            XmlAttribute aa, bb;
-            XmlAttributeCollection col1, col2;
-            int result;
+            var result = string.Compare(a.Name, b.Name, sort_node_comp);
 
-            result = string.Compare(a.Name, b.Name, sort_node_comp);
-
-            // NOTE: Always sort the _nodes_ based on its attributes (when the 
+            // NOTE: Always sort the _nodes_ based on its attributes (when the
             //       name matches), but don't actually sort the node's attributes.
-            //       (Sorting attributes is done before node sorting happens,
-            //       if specified).
-            if (result == 0) {
-                col1 = (a.Attributes.Count >= b.Attributes.Count) ? a.Attributes : b.Attributes;
-                col2 = (a.Attributes.Count >= b.Attributes.Count) ? b.Attributes : a.Attributes;
+            //       Sorting attributes, if specified, is done before node sorting happens..
 
-                for (int i = 0; i < col1.Count; i++) {
+            if (result == 0) {
+                var col1 = (a.Attributes.Count >= b.Attributes.Count) ? a.Attributes : b.Attributes;
+                var col2 = (a.Attributes.Count >= b.Attributes.Count) ? b.Attributes : a.Attributes;
+
+                for (var i = 0; i < col1.Count; i++) {
                     if (i < col2.Count) {
-                        aa = col1[i];
-                        bb = col2[i];
+                        var aa = col1[i];
+                        var bb = col2[i];
                         result = string.Compare(aa.Name, bb.Name, sort_attr_comp);
                         if (result == 0) {
                             result = string.Compare(aa.Value, bb.Value, sort_attr_comp);
@@ -241,16 +235,16 @@ namespace sortxml
         {
             // Remove, sort, then re-add the attributes to the collection.
             if (sort_attr && col != null && col.Count > 0) {
-                List<XmlAttribute> attrs = new List<XmlAttribute>(col.Count);
+                var attrs = new List<XmlAttribute>(col.Count);
 
-                for (int i = col.Count - 1; i >= 0; i--) {
+                for (var i = col.Count - 1; i >= 0; i--) {
                     attrs.Add(col[i]);
                     col.RemoveAt(i);
                 }
 
                 SortAttributeList(attrs);
 
-                for (int i = 0; i < attrs.Count; i++) {
+                for (var i = 0; i < attrs.Count; i++) {
                     col.Append(attrs[i]);
                 }
             }
@@ -258,14 +252,11 @@ namespace sortxml
 
         static void SortAttributeList( List<XmlAttribute> attrs )
         {
-            int result;
-
-            attrs.Sort(delegate( XmlAttribute a, XmlAttribute b )
-            {
-                result = string.Compare(a.Name, b.Name, sort_attr_comp);
+            attrs.Sort(delegate ( XmlAttribute a, XmlAttribute b ) {
+                var result = string.Compare(a.Name, b.Name, sort_attr_comp);
                 if (result == 0) {
                     return string.Compare(a.Value, b.Value, sort_attr_comp);
-                } else if (primary_attr.Length > 0) {
+                } else if (!string.IsNullOrEmpty(primary_attr)) {
                     // If a primary_attr is specified, it is always made the first attribute!
                     if (a.Name.Equals(primary_attr, sort_attr_comp)) {
                         return -1;
@@ -279,43 +270,61 @@ namespace sortxml
 
         static void usage()
         {
-            Console.Write(GetEmbeddedReadme());
-        }
+            Console.WriteLine("sortxml");
+            Console.WriteLine("");
+            Console.WriteLine("This is a small utility that sorts (and prettifies) xml files.");
+            Console.WriteLine("It uses the Microsoft XML .NET namespace.");
+            Console.WriteLine("");
+            Console.WriteLine("Copyright (c) 2014-2020 Kody Brown (@wasatchwizard)");
+            Console.WriteLine("");
+            Console.WriteLine("    USAGE: sortxml.exe [options] infile [outfile]");
+            Console.WriteLine("");
+            Console.WriteLine("      infile        The name of the file to sort, etc.");
+            Console.WriteLine("");
+            Console.WriteLine("      outfile       The name of the file to save the output to.");
+            Console.WriteLine("                    If outfile is omitted, the output is written to stdout,");
+            Console.WriteLine("                    unless `--overwrite` is specified, in which case the");
+            Console.WriteLine("                    output is written back to infile, overwriting it.");
+            Console.WriteLine("");
+            Console.WriteLine("    OPTIONS:");
+            Console.WriteLine("");
+            Console.WriteLine("      /p --pause    Pauses when finished.");
+            Console.WriteLine("");
+            Console.WriteLine("      --pretty      Ignores the input format and makes the output look nice.");
+            Console.WriteLine("                    This is the default.");
+            Console.WriteLine("");
+            Console.WriteLine("      /s --sort     Sort both the nodes and attributes.");
+            Console.WriteLine("      --sort-node   Sort the nodes.");
+            Console.WriteLine("      --sort-attr   Sort the attributes.");
+            Console.WriteLine("                    If a sort is specified, '--pretty' is assumed.");
+            Console.WriteLine("                    If a sort is NOT is specified, both nodes and attributes");
+            Console.WriteLine("                    will be sorted.");
+            Console.WriteLine("");
+            Console.WriteLine("      /i --case-insensitive");
+            Console.WriteLine("                    Sorts node and attributes without regard to letter case.");
+            Console.WriteLine("      !i --case-sensitive");
+            Console.WriteLine("                    Sorts node and attributes case-sensitively.");
+            Console.WriteLine("                    If neither option is specified, uses case-sensitive sort.");
+            Console.WriteLine("");
+            Console.WriteLine("      --overwrite   Writes back to the infile.");
+            Console.WriteLine("                    Only used if outfile is not specified.");
+            Console.WriteLine("");
+            Console.WriteLine("    Prefix an option with '!' to turn it off.");
+            Console.WriteLine("    The '!' can be applied with or without one of the other prefixes.");
+            Console.WriteLine("    The '/' and '--' prefixes are interchangable.");
+            Console.WriteLine("");
+            Console.WriteLine("The default is to output pretty and sorted nodes and attributes:");
+            Console.WriteLine("");
+            Console.WriteLine("    > type sample.xml");
+            Console.WriteLine("    <?xml version=\"1.0\" encoding=\"utf-8\" ?><root><node value=\"one\" attr=\"name\"/><node2 attr=\"name\" value=\"two\" /></root>");
+            Console.WriteLine("");
+            Console.WriteLine("    > sortxml.exe sample.xml");
+            Console.WriteLine("    <?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+            Console.WriteLine("    <root>");
+            Console.WriteLine("        <node attr=\"name\" value=\"one\" />");
+            Console.WriteLine("        <node2 attr=\"name\" value=\"two\" />");
+            Console.WriteLine("    </root>");
 
-        public static string GetEmbeddedReadme()
-        {
-            Assembly asm;
-            Stream strm;
-            string result;
-
-            asm = Assembly.GetExecutingAssembly();
-            strm = asm.GetManifestResourceStream("sortxml.README.md");
-
-            if (strm == null) {
-                return string.Empty;
-            }
-
-            result = "";
-
-            using (StreamReader reader = new StreamReader(strm)) {
-                result = reader.ReadToEnd();
-                reader.Close();
-            }
-
-            // clean it up just a tiny bit..
-            List<string> ar = new List<string>(result.Trim().Split(new char[] { '\n' }));
-
-            ar.RemoveRange(0, 3);
-
-            for (int i = 0; i < ar.Count; i++) {
-                if (ar[i].StartsWith("    ")) {
-                    ar[i] = ar[i].Substring(2);
-                }
-            }
-
-            ar.Add("");
-
-            return string.Join(Environment.NewLine, ar);
         }
     }
 }
