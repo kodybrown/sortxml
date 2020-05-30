@@ -1,7 +1,38 @@
 
 # dotnet format
+#
 # https://github.com/dotnet/format
 # https://kent-boogaart.com/blog/editorconfig-reference-for-c-developers
+#
+# Installation:
+#
+#     dotnet tool install -g dotnet-format
+#
+# Examples            Description
+#
+#     dotnet format
+#                     Formats the project or solution in the current directory.
+#
+#     dotnet format -f <folder>
+#                     Formats a particular folder and subfolders.
+#
+#     dotnet format -w <workspace>
+#                     Formats a specific project or solution.
+#
+#     dotnet format -v diag
+#                     Formats with very verbose logging.
+#
+#     dotnet format --files Programs.cs,Utility\Logging.cs
+#                     Formats the files Program.cs and Utility\Logging.cs
+#
+#     dotnet format --check --dry-run
+#                     Formats but does not save. Returns a non-zero exit code if
+#                     any files would have been changed.
+#
+# Usages
+#
+#     dotnet format -v d -w fixeol.csproj
+#
 
 # top-most EditorConfig file
 root = true
@@ -14,14 +45,14 @@ root = true
 # Key: indent_style
 # Valid values: space|tab
 # Supports code style option: no
-indent_style = tab
+indent_style = space
 
 # (Please don't specify an indent_size here; that has too many unintended consequences.)
 
 #
 # Code files
 #
-[*.{cs,csx,vb,vbx}]
+[*.{cs,csx,vb,vbx,cshtml}]
 
 # Key: indent_size
 # Valid values: (any integer)
@@ -45,7 +76,7 @@ trim_trailing_whitespace = true
 # Key: end_of_line
 # Valid values: lf|cr|crlf
 # Supports code style option: no
-end_of_line = crlf
+end_of_line = lf
 
 #
 # XML project files
@@ -92,11 +123,6 @@ indent_size = 4
 #
 [*.sh]
 
-# Key: end_of_line
-# Valid values: lf|cr|crlf
-# Supports code style option: no
-end_of_line = lf
-
 # Key: indent_size
 # Valid values: (any integer)
 # Supports code style option: no
@@ -142,18 +168,18 @@ dotnet_separate_import_directive_groups = false
 # Valid values: true|false
 # Supports code style option: yes
 # // dotnet_style_qualification_for_field = true:error
-# this.foo = 42;
+# this.foo = 86;
 # // dotnet_style_qualification_for_field = false:error
-# foo = 42;
+# foo = 86;
 dotnet_style_qualification_for_field = false:refactoring
 
 # Key: dotnet_style_qualification_for_property
 # Valid values: true|false
 # Supports code style option: yes
 # // dotnet_style_qualification_for_property = true:error
-# this.Foo = 42;
+# this.Foo = 86;
 # // dotnet_style_qualification_for_property = false:error
-# Foo = 42;
+# Foo = 86;
 dotnet_style_qualification_for_property = false:refactoring
 
 # Key: dotnet_style_qualification_for_method
@@ -210,22 +236,22 @@ dotnet_style_predefined_type_for_member_access = true:suggestion
 # // dotnet_style_object_initializer = true:error
 # var foo = new Foo
 # {
-#     Value = 42
+#     Value = 86
 # };
 # // dotnet_style_object_initializer = false:error
 # var foo = new Foo();
-# foo.Value = 42;
+# foo.Value = 86;
 dotnet_style_object_initializer = true:suggestion
 
 # Key: dotnet_style_collection_initializer
 # Valid values: true|false
 # Supports code style option: yes
 # // dotnet_style_collection_initializer = true:error
-# var foos = new List<int> { 42, 13 };
+# var foos = new List<int> { 86, 95 };
 # // dotnet_style_collection_initializer = false:error
 # var foo = new List<int>();
-# foo.Add(42);
-# foo.Add(13);
+# foo.Add(86);
+# foo.Add(95);
 dotnet_style_collection_initializer = true:suggestion
 
 # Key: dotnet_style_coalesce_expression
@@ -294,7 +320,7 @@ dotnet_style_readonly_field = true:suggestion
 # // csharp_prefer_braces = false:error
 # if (foo)
 #     return;
-csharp_prefer_braces = true:warning
+csharp_prefer_braces = true:error
 
 csharp_style_deconstructed_variable_declaration = true:suggestion
 
@@ -322,9 +348,9 @@ csharp_style_pattern_local_over_anonymous_function = true:suggestion
 # if (this.TryParseFoo(out foo))
 # {
 # }
-csharp_style_inlined_variable_declaration = true:suggestion
+csharp_style_inlined_variable_declaration = true:refactoring
 
-# dotnet_style_prefer_is_null_check_over_reference_equality_method = true:silent
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:silent
 
 # dotnet_style_prefer_inferred_tuple_names = true:suggestion
 
@@ -332,7 +358,7 @@ csharp_style_inlined_variable_declaration = true:suggestion
 
 # dotnet_style_prefer_auto_properties = true:silent
 
-# dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
 
 # dotnet_style_prefer_conditional_expression_over_return = true:silent
 
@@ -366,10 +392,10 @@ dotnet_naming_symbols.constant_fields.required_modifiers          = const
 # Valid values: true|false
 # Supports code style option: yes
 # // csharp_style_var_for_built_in_types = true:error
-# var foo = 42;
+# var foo = 86;
 # // csharp_style_var_for_built_in_types = false:error
-# int foo = 42;
-csharp_style_var_for_built_in_types = true:silent
+# int foo = 86;
+csharp_style_var_for_built_in_types = true
 
 # Key: csharp_style_var_when_type_is_apparent
 # Valid values: true|false
@@ -378,7 +404,7 @@ csharp_style_var_for_built_in_types = true:silent
 # var foo = new List<int>();
 # // csharp_style_var_when_type_is_apparent = false:error
 # List<int> foo = new List<int>();
-csharp_style_var_when_type_is_apparent = true:silent
+csharp_style_var_when_type_is_apparent = true
 
 # Key: csharp_style_var_elsewhere
 # Valid values: true|false
@@ -387,7 +413,7 @@ csharp_style_var_when_type_is_apparent = true:silent
 # var foo = this.Foo();
 # // csharp_style_var_elsewhere = false:error
 # Foo foo = this.Foo();
-csharp_style_var_elsewhere = true:silent
+csharp_style_var_elsewhere = true
 
 #
 # Expression-bodied members
@@ -397,23 +423,23 @@ csharp_style_var_elsewhere = true:silent
 # Valid values: true|false|when_on_single_line
 # Supports code style option: yes
 # // csharp_style_expression_bodied_methods = true:error
-# public int Foo() => 42;
+# public int Foo() => 86;
 # // csharp_style_expression_bodied_methods = false:error
 # public int Foo()
 # {
-#     return 42;
+#     return 86;
 # }
-csharp_style_expression_bodied_methods = true:silent
+csharp_style_expression_bodied_methods = true:suggestion
 
 # Key: csharp_style_expression_bodied_constructors
 # Valid values: true|false|when_on_single_line
 # Supports code style option: yes
 # // csharp_style_expression_bodied_constructors = true:error
-# public Foo() => this.foo = 42;
+# public Foo() => this.foo = 86;
 # // csharp_style_expression_bodied_constructors = false:error
 # public Foo()
 # {
-#     this.foo = 42;
+#     this.foo = 86;
 # }
 csharp_style_expression_bodied_constructors = true:when_on_single_line
 
@@ -427,31 +453,31 @@ csharp_style_expression_bodied_constructors = true:when_on_single_line
 # {
 #     return first.Bar + second.Bar;
 # }
-csharp_style_expression_bodied_operators = true:silent
+csharp_style_expression_bodied_operators = true:suggestion
 
 # Key: csharp_style_expression_bodied_properties
 # Valid values: true|false|when_on_single_line
 # Supports code style option: yes
 # // csharp_style_expression_bodied_properties = true:error
-# public int Foo => 42;
+# public int Foo => 86;
 # // csharp_style_expression_bodied_properties = false:error
 # public int Foo
 # {
-#     get { return 42; }
+#     get { return 86; }
 # }
-csharp_style_expression_bodied_properties = true:silent
+csharp_style_expression_bodied_properties = true:suggestion
 
 # Key: csharp_style_expression_bodied_indexers
 # Valid values: true|false|when_on_single_line
 # Supports code style option: yes
 # // csharp_style_expression_bodied_indexers = true:error
-# public int this[int i] => 42;
+# public int this[int i] => 86;
 # // csharp_style_expression_bodied_indexers = false:error
 # public int this[int i]
 # {
-#     get { return 42; }
+#     get { return 86; }
 # }
-csharp_style_expression_bodied_indexers = true:silent
+csharp_style_expression_bodied_indexers = true:suggestion
 
 # Key: csharp_style_expression_bodied_accessors
 # Valid values: true|false|when_on_single_line
@@ -470,7 +496,7 @@ csharp_style_expression_bodied_indexers = true:silent
 #     get { return this.foo; }
 #     set { this.foo = value; }
 # }
-csharp_style_expression_bodied_accessors = true:silent
+csharp_style_expression_bodied_accessors = true:suggestion
 
 #
 # Pattern-matching preferences
@@ -502,7 +528,7 @@ csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
 # if (s != null)
 # {
 # }
-csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+csharp_style_pattern_matching_over_as_with_null_check = false:suggestion
 
 #
 # Null-checking preferences
@@ -633,13 +659,13 @@ csharp_new_line_before_finally = false
 # // csharp_new_line_before_members_in_object_initializers = true
 # var foo = new Foo
 # {
-#     A = 42,
-#     B = 13
+#     A = 86,
+#     B = 95
 # };
 # // csharp_new_line_before_members_in_object_initializers = false
 # var foo = new Foo
 # {
-#     A = 42, B = 13
+#     A = 86, B = 95
 # };
 csharp_new_line_before_members_in_object_initializers = true
 
@@ -649,13 +675,13 @@ csharp_new_line_before_members_in_object_initializers = true
 # // csharp_new_line_before_members_in_anonymous_types = true
 # var foo = new
 # {
-#     A = 42,
-#     B = 13
+#     A = 86,
+#     B = 95
 # };
 # // csharp_new_line_before_members_in_anonymous_types = false
 # var foo = new
 # {
-#     A = 42, B = 13
+#     A = 86, B = 95
 # };
 csharp_new_line_before_members_in_anonymous_types = true
 
@@ -680,12 +706,12 @@ csharp_new_line_between_query_expression_clauses = true
 # // csharp_indent_block_contents = true
 # if (foo)
 # {
-#     var bar = 42;
+#     var bar = 86;
 # }
 # // csharp_indent_block_contents = false
 # if (foo)
 # {
-# var bar = 42;
+# var bar = 86;
 # }
 csharp_indent_block_contents = true
 
@@ -708,17 +734,17 @@ csharp_indent_braces = false
 # // csharp_indent_case_contents = true
 # switch (foo)
 # {
-#     case 42:
+#     case 86:
 #         break;
-#     case 13:
+#     case 95:
 #         break;
 # }
 # // csharp_indent_case_contents = false
 # switch (foo)
 # {
-#     case 42:
+#     case 86:
 #     break;
-#     case 13:
+#     case 95:
 #     break;
 # }
 csharp_indent_case_contents = true
@@ -732,7 +758,7 @@ csharp_indent_case_contents = true
 #     public void M()
 #     {
 # foo:
-#         var x =  42;
+#         var x =  86;
 #     }
 # }
 # // csharp_indent_labels = one_less_than_current
@@ -741,7 +767,7 @@ csharp_indent_case_contents = true
 #     public void M()
 #     {
 #     foo:
-#         var x =  42;
+#         var x =  86;
 #     }
 # }
 # // csharp_indent_labels = no_change
@@ -750,7 +776,7 @@ csharp_indent_case_contents = true
 #     public void M()
 #     {
 #         foo:
-#         var x =  42;
+#         var x =  86;
 #     }
 # }
 csharp_indent_labels = one_less_than_current
@@ -761,17 +787,17 @@ csharp_indent_labels = one_less_than_current
 # // csharp_indent_switch_labels = true
 # switch (foo)
 # {
-#     case 42:
+#     case 86:
 #         break;
-#     case 13:
+#     case 95:
 #         break;
 # }
 # // csharp_indent_switch_labels = false
 # switch (foo)
 # {
-# case 42:
+# case 86:
 #     break;
-# case 13:
+# case 95:
 #     break;
 # }
 csharp_indent_switch_labels = true
@@ -847,29 +873,29 @@ csharp_space_before_semicolon_in_for_statement = false
 # Valid values: ignore|do_not_ignore
 # Supports code style option: no
 # // csharp_space_around_declaration_statements = ignore
-# var    foo    =    42;
+# var    foo    =    86;
 # // csharp_space_around_declaration_statements = do_not_ignore
-# var foo = 42;
-csharp_space_around_declaration_statements = ignore
+# var foo = 86;
+csharp_space_around_declaration_statements = do_not_ignore
 
 # Key: csharp_space_between_parentheses
 # Valid values: none|expressions|type_casts|control_flow_statements
 # Supports code style option: no
 # // csharp_space_between_parentheses = none
 # var foo = (int)bar;
-# while (foo < 42)
+# while (foo < 86)
 # {
 #     ++foo;
 # }
 # // csharp_space_between_parentheses = type_casts
 # var foo = ( int )bar;
-# while (foo < 42)
+# while (foo < 86)
 # {
 #     ++foo;
 # }
 # // csharp_space_between_parentheses = type_casts,control_flow_statements
 # var foo = ( int )bar;
-# while ( foo < 42 )
+# while ( foo < 86 )
 # {
 #     ++foo;
 # }
@@ -898,11 +924,11 @@ csharp_space_after_colon_in_inheritance_clause = true
 # Supports code style option: no
 # NOTE: currently thwarted by this bug.
 # // csharp_space_around_binary_operators = before_and_after
-# var foo = 42 + 42;
+# var foo = 86 + 86;
 # // csharp_space_around_binary_operators = ignore
-# var foo = 42+   42;
+# var foo = 86+   86;
 # // csharp_space_around_binary_operators = none
-# var foo = 42+42;
+# var foo = 86+86;
 csharp_space_around_binary_operators = before_and_after
 
 # Key: csharp_space_between_method_declaration_name_and_open_parenthesis
@@ -966,9 +992,9 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false
 # Valid values: true|false
 # Supports code style option: no
 # // csharp_space_between_method_call_parameter_list_parentheses = true
-# this.Foo( 42 );
+# this.Foo( 86 );
 # // csharp_space_between_method_call_parameter_list_parentheses = false
-# this.Foo(42);
+# this.Foo(86);
 csharp_space_between_method_call_parameter_list_parentheses = false
 
 # Key: csharp_space_after_comma
@@ -1002,27 +1028,27 @@ csharp_space_before_dot = false
 # Valid values: true|false
 # Supports code style option: no
 # // csharp_space_between_square_brackets = true
-# foo[ 42 ] = 13;
+# foo[ 86 ] = 95;
 # // csharp_space_between_square_brackets = false
-# foo[42] = 13;
+# foo[86] = 95;
 csharp_space_between_square_brackets = false
 
 # Key: csharp_space_before_open_square_brackets
 # Valid values: true|false
 # Supports code style option: no
 # // csharp_space_before_open_square_brackets = true
-# var foo = bar [42];
+# var foo = bar [86];
 # // csharp_space_before_open_square_brackets = false
-# var foo = bar[42];
+# var foo = bar[86];
 csharp_space_before_open_square_brackets = false
 
 # Key: csharp_space_between_empty_square_brackets
 # Valid values: true|false
 # Supports code style option: no
 # // csharp_space_between_empty_square_brackets = true
-# var foo = new [ ] { 42, 13 };
+# var foo = new [ ] { 86, 95 };
 # // csharp_space_between_empty_square_brackets = false
-# var foo = new [] { 42, 13 };
+# var foo = new [] { 86, 95 };
 csharp_space_between_empty_square_brackets = false
 
 #
@@ -1037,7 +1063,7 @@ csharp_space_between_empty_square_brackets = false
 # // csharp_preserve_single_line_statements = false
 # if (true)
 #     DoSomething();
-csharp_preserve_single_line_statements = true
+csharp_preserve_single_line_statements = false
 
 # Key: csharp_preserve_single_line_blocks
 # Valid values: true|false

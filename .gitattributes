@@ -22,28 +22,32 @@
 ###############################################################################
 # Force SYSTEM NATIVE line-endings. (ie: crlf on Windows, lf on Linux, etc.)
 ###############################################################################
-# C/C++
-*.c      text
-*.h      text
-*.mk     text
 
-# C#
-*.cs     text diff=csharp
-
-# Web
-*.css    text
-*.scss   text
-*.js     text
-*.htm    text
-*.html   text
-
-# Misc.
-*.txt    text
-Makefile text
+# example
+#*.c      text
 
 ###############################################################################
 # Force LF line-endings.
 ###############################################################################
+# C/C++
+*.c      text eol=lf
+*.h      text eol=lf
+*.mk     text eol=lf
+
+# C#
+*.cs     text eol=lf diff=csharp
+
+# Web
+*.css    text eol=lf
+*.scss   text eol=lf
+*.js     text eol=lf
+*.htm    text eol=lf
+*.html   text eol=lf
+
+# Misc.
+*.txt    text eol=lf
+Makefile text eol=lf
+
 *.conf   text eol=lf
 *.config text eol=lf
 *.go     text eol=lf
@@ -104,7 +108,7 @@ Makefile text
 #
 # Merging from the command prompt will add diff markers to the files if there
 # are conflicts (Merging from VS is not affected by the settings below, in VS
-# the diff markers are never inserted). Diff markers may cause the following 
+# the diff markers are never inserted). Diff markers may cause the following
 # file extensions to fail to load in VS. An alternative would be to treat
 # these files as binary and thus will always conflict and require user
 # intervention with every merge. To do so, just uncomment the entries below
@@ -121,16 +125,15 @@ Makefile text
 #*.modelproj  merge=binary
 #*.sqlproj    merge=binary
 #*.wwaproj    merge=binary
-*.sln        text eol=crlf
-*.csproj     text eol=crlf
-*.vbproj     text eol=crlf
-*.vcxproj    text eol=crlf
-*.vcproj     text eol=crlf
-*.dbproj     text eol=crlf
-*.fsproj     text eol=crlf
-*.lsproj     text eol=crlf
-*.wixproj    text eol=crlf
-*.modelproj  text eol=crlf
-*.sqlproj    text eol=crlf
-*.wwaproj    text eol=crlf
-
+*.sln        text eol=lf
+*.csproj     text eol=lf
+*.vbproj     text eol=lf
+*.vcxproj    text eol=lf
+*.vcproj     text eol=lf
+*.dbproj     text eol=lf
+*.fsproj     text eol=lf
+*.lsproj     text eol=lf
+*.wixproj    text eol=lf
+*.modelproj  text eol=lf
+*.sqlproj    text eol=lf
+*.wwaproj    text eol=lf
