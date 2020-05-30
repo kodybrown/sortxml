@@ -6,7 +6,7 @@
     <Product>Bricksoft.PowerTools</Product>
     <AssemblyName>sortxml</AssemblyName>
     <AssemblyTitle>sortxml</AssemblyTitle>
-    <Version></Version>
+    <Version>2.1.2005.3015</Version>
     <Description>Simple utility that sorts (and prettifies) xml files.</Description>
     <Company></Company>
     <Authors>thewizard@wasatchwizard.com</Authors>
@@ -40,9 +40,4 @@
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="GitVersion.Core" Version="5.3.5" />
-    <PackageReference Include="Microsoft.Composition" Version="1.0.31" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-  </ItemGroup>
 </Project>
