@@ -15,6 +15,13 @@ jobs:
         dotnet: [ '3.1.202' ]
     name: dotnet core ${{ matrix.dotnet }}
     steps:
+      - name: Get variables
+        run: |
+          echo ::set-env name=APP_NAME::sortxml
+          echo APP_NAME=${{ env.APP_NAME }}
+          echo ::set-env name=TAG_NAME::${GITHUB_REF#refs/*/}
+          echo TAG_NAME=${{ env.TAG_NAME }}
+
       - name: Get source
         uses: actions/checkout@v2
           # ref: ${github.ref##*/}
@@ -30,7 +37,7 @@ jobs:
       - name: Format
         run: |
           dotnet tool install -g dotnet-format
-          dotnet format -v d -w fixeol.csproj
+          dotnet format -v d -w ${{ env.APP_NAME }}.csproj
 
       - name: Build
         run: dotnet build --configuration Release
