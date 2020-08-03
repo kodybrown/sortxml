@@ -166,7 +166,7 @@ namespace sortxml
                 var nodes = new List<XmlNode>(node.ChildNodes.Count);
 
                 for (var i = node.ChildNodes.Count - 1; i >= 0; i--) {
-                    nodes.Add(node.ChildNodes[i]);
+                    nodes.Insert(0, node.ChildNodes[i]);
                     node.RemoveChild(node.ChildNodes[i]);
                 }
 
@@ -187,30 +187,31 @@ namespace sortxml
             //       Sorting attributes, if specified, is done before node sorting happens..
 
             if (result == 0) {
-                var col1 = (a.Attributes.Count >= b.Attributes.Count) ? a.Attributes : b.Attributes;
-                var col2 = (a.Attributes.Count >= b.Attributes.Count) ? b.Attributes : a.Attributes;
+                var aCount = a.Attributes?.Count ?? 0;
+                var bCount = b.Attributes?.Count ?? 0;
+                var sharedCount = Math.Min(aCount, bCount);
 
-                for (var i = 0; i < col1.Count; i++) {
-                    if (i < col2.Count) {
-                        var aa = col1[i];
-                        var bb = col2[i];
-                        result = string.Compare(aa.Name, bb.Name, sort_attr_comp);
-                        if (result == 0) {
-                            result = string.Compare(aa.Value, bb.Value, sort_attr_comp);
-                            if (result != 0) {
-                                return result;
-                            }
-                            // Attribute name and value match.. continue loop.
-                        } else {
+                for (var i = 0; i < sharedCount; i++) {
+                    var aa = a.Attributes[i];
+                    var bb = b.Attributes[i];
+                    result = string.Compare(aa.Name, bb.Name, sort_attr_comp);
+                    if (result == 0) {
+                        result = string.Compare(aa.Value, bb.Value, sort_attr_comp);
+                        if (result != 0) {
                             return result;
                         }
+                        // Attribute name and value match.. continue loop.
                     } else {
-                        return 1;
+                        return result;
                     }
                 }
 
-                // If we get here, that means that the node's attributes (and values) all match..
-                // TODO: Should we go down into the child node collections for sorting?
+                // If we get here, that means that the node's attributes (and values) all match, up to lesser count..
+
+                // Compare by count (meaing node with fewer attributes will sort first)
+                return aCount.CompareTo(bCount);
+
+                // TODO: Should we go down into the child node collections for sorting, if equal attribute count?
                 //       See example `c.xml`..
                 //Console.WriteLine(a.Name + "==" + b.Name + " all attributes matched");
             }
