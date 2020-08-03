@@ -187,7 +187,9 @@ namespace sortxml
             //       Sorting attributes, if specified, is done before node sorting happens..
 
             if (result == 0) {
-                var sharedCount = Math.Min(a.Attributes.Count, b.Attributes.Count);
+                var aCount = a.Attributes?.Count ?? 0;
+                var bCount = b.Attributes?.Count ?? 0;
+                var sharedCount = Math.Min(aCount, bCount);
 
                 for (var i = 0; i < sharedCount; i++) {
                     var aa = a.Attributes[i];
@@ -207,7 +209,7 @@ namespace sortxml
                 // If we get here, that means that the node's attributes (and values) all match, up to lesser count..
 
                 // Compare by count (meaing node with fewer attributes will sort first)
-                return a.Attributes.Count.CompareTo(b.Attributes.Count);
+                return aCount.CompareTo(bCount);
 
                 // TODO: Should we go down into the child node collections for sorting, if equal attribute count?
                 //       See example `c.xml`..
