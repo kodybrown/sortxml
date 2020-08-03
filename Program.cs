@@ -166,7 +166,7 @@ namespace sortxml
                 var nodes = new List<XmlNode>(node.ChildNodes.Count);
 
                 for (var i = node.ChildNodes.Count - 1; i >= 0; i--) {
-                    nodes.Add(node.ChildNodes[i]);
+                    nodes.Insert(0, node.ChildNodes[i]);
                     node.RemoveChild(node.ChildNodes[i]);
                 }
 
