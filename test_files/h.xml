@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff srcLang="en" version="2.0" xmlns="urn:oasis:names:tc:xliff:document:2.0">
+  <file id="ngi18n" original="ng.template">
+    <unit id="2">
+      <segment>
+        <source>From <ph id="0" equiv="INTERPOLATION" disp="{{ start }}"/> to <ph id="1" equiv="INTERPOLATION_1" disp="{{ end }}"/> position</source>
+      </segment>
+    </unit>
+  </file>
+</xliff>
