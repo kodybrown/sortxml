@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
@@ -161,8 +162,23 @@ namespace sortxml
                 SortNodes(node.ChildNodes[i]);
             }
 
-            // Remove, sort, then re-add the node's children.
-            if (sort_node && node.ChildNodes != null && node.ChildNodes.Count > 0) {
+            // Only sort the children of Elements, and only if there is something to sort
+            if (sort_node && node.NodeType == XmlNodeType.Element && node.ChildNodes.Count > 1) {
+                // From the docs:
+                // An Element node can have the following child node types:
+                // Element, Text, Comment, ProcessingInstruction, CDATA, and EntityReference
+                //
+                // For most of these, the position is important, so we cannot sort.
+                // We can only sort when all child nodes are Element (or Comment,
+                // where we don't know where it could belong but hopefully it
+                // doesn't matter).
+                if (node.ChildNodes.Cast<XmlNode>().Any(childNode => childNode.NodeType != XmlNodeType.Element &&
+                                                                     childNode.NodeType != XmlNodeType.Comment)) {
+                    // Don't sort!
+                    return;
+                }
+
+                // Remove, sort, then re-add the node's children.
                 var nodes = new List<XmlNode>(node.ChildNodes.Count);
 
                 for (var i = node.ChildNodes.Count - 1; i >= 0; i--) {
