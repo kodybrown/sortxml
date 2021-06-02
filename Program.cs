@@ -187,8 +187,8 @@ namespace sortxml
             //       Sorting attributes, if specified, is done before node sorting happens..
 
             if (result == 0) {
-                var col1 = (a.Attributes.Count >= b.Attributes.Count) ? a.Attributes : b.Attributes;
-                var col2 = (a.Attributes.Count >= b.Attributes.Count) ? b.Attributes : a.Attributes;
+                var col1 = a.Attributes;
+                var col2 = b.Attributes;
 
                 for (var i = 0; i < col1.Count; i++) {
                     if (i < col2.Count) {
@@ -209,6 +209,13 @@ namespace sortxml
                     }
                 }
 
+                if (result == 0 && col1.Count < col2.Count) {
+                    return -1;
+                }
+
+                if (result == 0) {
+                    result = string.Compare(a.InnerText, b.InnerText, sort_node_comp);
+                }
                 // If we get here, that means that the node's attributes (and values) all match..
                 // TODO: Should we go down into the child node collections for sorting?
                 //       See example `c.xml`..
