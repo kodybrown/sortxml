@@ -3,15 +3,15 @@
   <CodeSnippet Format="1.0.0">
     <Header>
       <Author>Kody Brown</Author>
-      <Description>Check if object is null (if stmt)</Description>
-      <Shortcut>isnull</Shortcut>
+      <Description>Check if object is not null (if stmt)</Description>
+      <Shortcut>notnull</Shortcut>
       <SnippetTypes>
         <SnippetType>Expansion</SnippetType>
       </SnippetTypes>
-      <Title>Check if object is null (if stmt)</Title>
+      <Title>Check if object is not null (if stmt)</Title>
     </Header>
     <Snippet>
-      <Code Language="csharp"><![CDATA[if (null == $obj$) {
+      <Code Language="csharp"><![CDATA[if (null != $obj$) {
 					$end$
 				}]]></Code>
       <Declarations>
@@ -26,15 +26,15 @@
   <CodeSnippet Format="1.0.0">
     <Header>
       <Author>Kody Brown</Author>
-      <Description>Check if object is not null (if stmt)</Description>
-      <Shortcut>notnull</Shortcut>
+      <Description>Check if object is null (if stmt)</Description>
+      <Shortcut>isnull</Shortcut>
       <SnippetTypes>
         <SnippetType>Expansion</SnippetType>
       </SnippetTypes>
-      <Title>Check if object is not null (if stmt)</Title>
+      <Title>Check if object is null (if stmt)</Title>
     </Header>
     <Snippet>
-      <Code Language="csharp"><![CDATA[if (null != $obj$) {
+      <Code Language="csharp"><![CDATA[if (null == $obj$) {
 					$end$
 				}]]></Code>
       <Declarations>

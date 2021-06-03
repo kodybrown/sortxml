@@ -3,22 +3,6 @@
   <CodeSnippet Format="1.0.0">
     <Header>
       <Author>Kody Brown</Author>
-      <Description>Outputs: return false</Description>
-      <HelpUrl>
-      </HelpUrl>
-      <Shortcut>rf</Shortcut>
-      <SnippetTypes>
-        <SnippetType>Expansion</SnippetType>
-      </SnippetTypes>
-      <Title>return false</Title>
-    </Header>
-    <Snippet>
-      <Code Language="csharp"><![CDATA[return false;$end$]]></Code>
-    </Snippet>
-  </CodeSnippet>
-  <CodeSnippet Format="1.0.0">
-    <Header>
-      <Author>Kody Brown</Author>
       <Description>Outputs: Loc.GetText("")</Description>
       <HelpUrl>
       </HelpUrl>
@@ -30,6 +14,22 @@
     </Header>
     <Snippet>
       <Code Language="csharp"><![CDATA[Loc.GetText("$end$")]]></Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Author>Kody Brown</Author>
+      <Description>Outputs: return false</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>rf</Shortcut>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>return false</Title>
+    </Header>
+    <Snippet>
+      <Code Language="csharp"><![CDATA[return false;$end$]]></Code>
     </Snippet>
   </CodeSnippet>
 </CodeSnippets>

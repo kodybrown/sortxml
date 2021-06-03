@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <test b="2">4</test>
+  <test b="2">1</test>
+  <test b="1">2</test>
+  <test b="2">3</test>
+  <test b="2">
+    <hello>
+      yes
+    </hello>
+  </test>
+  <test b="2">
+    <hello>
+      yes2
+    </hello>
+    <hello>
+      yes
+    </hello>
+  </test>
+  <test b="2">
+    <hello>
+      no
+    </hello>
+  </test>
+  <test>1</test>
+  <test>3</test>
+  <test>2</test>
+  <test a="2">3</test>
+</tests>

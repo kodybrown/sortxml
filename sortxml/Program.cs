@@ -31,7 +31,7 @@ using System.Xml;
 
 namespace sortxml
 {
-    class Program
+    public class Program
     {
         static bool sort_node = true;
         static bool sort_attr = true;
@@ -43,7 +43,7 @@ namespace sortxml
 
         static string primary_attr = "";
 
-        static int Main( string[] arguments )
+        public static int Main( string[] arguments )
         {
             var inf = "";
             var outf = "";
@@ -187,8 +187,9 @@ namespace sortxml
             //       Sorting attributes, if specified, is done before node sorting happens..
 
             if (result == 0) {
-                var col1 = (a.Attributes.Count >= b.Attributes.Count) ? a.Attributes : b.Attributes;
-                var col2 = (a.Attributes.Count >= b.Attributes.Count) ? b.Attributes : a.Attributes;
+                // We need to respect return values of -1, 0 and 1, see test file h                
+                var col1 = a.Attributes;
+                var col2 = b.Attributes;
 
                 for (var i = 0; i < col1.Count; i++) {
                     if (i < col2.Count) {
@@ -209,6 +210,14 @@ namespace sortxml
                     }
                 }
 
+                // We need to respect return values of -1, 0 and 1, see test file h
+                if (result == 0 && col1.Count < col2.Count) {
+                    return -1;
+                }
+
+                if (result == 0) {
+                    result = string.Compare(a.InnerXml, b.InnerXml, sort_node_comp);
+                }
                 // If we get here, that means that the node's attributes (and values) all match..
                 // TODO: Should we go down into the child node collections for sorting?
                 //       See example `c.xml`..
