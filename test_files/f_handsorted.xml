@@ -1,38 +1,17 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
   <CodeSnippet Format="1.0.0">
     <Header>
       <Author>Kody Brown</Author>
-      <Description>Check if string is not null and not empty (trimmed)</Description>
-      <Shortcut>notnull</Shortcut>
-      <SnippetTypes>
-        <SnippetType>Expansion</SnippetType>
-      </SnippetTypes>
-      <Title>Check if string is not null and not empty (trimmed)</Title>
-    </Header>
-    <Snippet>
-      <Code Language="csharp"><![CDATA[null != $str$ && 0 < ($str$ = $str$.Trim()).Length$end$]]></Code>
-      <Declarations>
-        <Literal>
-          <Default>strValue</Default>
-          <ID>str</ID>
-          <ToolTip>The variable to check for null and length.</ToolTip>
-        </Literal>
-      </Declarations>
-    </Snippet>
-  </CodeSnippet>
-  <CodeSnippet Format="1.0.0">
-    <Header>
-      <Author>Kody Brown</Author>
-      <Description>Check if string is null or empty (trimmed)</Description>
+      <Description>Check if string is null or empty</Description>
       <Shortcut>isnull</Shortcut>
       <SnippetTypes>
         <SnippetType>Expansion</SnippetType>
       </SnippetTypes>
-      <Title>Check if string is null or empty (trimmed)</Title>
+      <Title>Check if string is null or empty</Title>
     </Header>
     <Snippet>
-      <Code Language="csharp"><![CDATA[null == $str$ || 0 == ($str$ = $str$.Trim()).Length$end$]]></Code>
+      <Code Language="csharp"><![CDATA[null == $str$ || 0 == $str$.Length$end$]]></Code>
       <Declarations>
         <Literal>
           <Default>strValue</Default>
@@ -66,15 +45,36 @@
   <CodeSnippet Format="1.0.0">
     <Header>
       <Author>Kody Brown</Author>
-      <Description>Check if string is null or empty</Description>
+      <Description>Check if string is null or empty (trimmed)</Description>
       <Shortcut>isnull</Shortcut>
       <SnippetTypes>
         <SnippetType>Expansion</SnippetType>
       </SnippetTypes>
-      <Title>Check if string is null or empty</Title>
+      <Title>Check if string is null or empty (trimmed)</Title>
     </Header>
     <Snippet>
-      <Code Language="csharp"><![CDATA[null == $str$ || 0 == $str$.Length$end$]]></Code>
+      <Code Language="csharp"><![CDATA[null == $str$ || 0 == ($str$ = $str$.Trim()).Length$end$]]></Code>
+      <Declarations>
+        <Literal>
+          <Default>strValue</Default>
+          <ID>str</ID>
+          <ToolTip>The variable to check for null and length.</ToolTip>
+        </Literal>
+      </Declarations>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Author>Kody Brown</Author>
+      <Description>Check if string is not null and not empty (trimmed)</Description>
+      <Shortcut>notnull</Shortcut>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>Check if string is not null and not empty (trimmed)</Title>
+    </Header>
+    <Snippet>
+      <Code Language="csharp"><![CDATA[null != $str$ && 0 < ($str$ = $str$.Trim()).Length$end$]]></Code>
       <Declarations>
         <Literal>
           <Default>strValue</Default>

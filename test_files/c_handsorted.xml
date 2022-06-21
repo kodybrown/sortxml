@@ -4,8 +4,7 @@
     <Header>
       <Author>Kody Brown</Author>
       <Description>Outputs: Loc.GetText("")</Description>
-      <HelpUrl>
-      </HelpUrl>
+      <HelpUrl></HelpUrl>
       <Shortcut>ll</Shortcut>
       <SnippetTypes>
         <SnippetType>SurroundsWith</SnippetType>
@@ -20,8 +19,7 @@
     <Header>
       <Author>Kody Brown</Author>
       <Description>Outputs: return false</Description>
-      <HelpUrl>
-      </HelpUrl>
+      <HelpUrl></HelpUrl>
       <Shortcut>rf</Shortcut>
       <SnippetTypes>
         <SnippetType>Expansion</SnippetType>
