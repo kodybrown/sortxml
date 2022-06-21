@@ -25,30 +25,26 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using System.Text;
 using System.Xml;
 
 namespace sortxml
 {
     class Program
     {
-        static bool sort_node = true;
-        static bool sort_attr = true;
-        static bool show_help = false;
-        static bool show_examples = false;
-        static bool pretty = true;
-        static bool pause = false;
-        static bool debug = false;
-        static bool overwriteSelf = false;
-        static StringComparison sort_node_comp = StringComparison.CurrentCulture; // Default to case-sensitive sorting.
-        static StringComparison sort_attr_comp = StringComparison.CurrentCulture;
-
-        static string primary_attr = "";
-
-        static string new_line_chars = "\\r\\n";
-        static string indent_chars = "\\t";
-        static bool new_line_on_attrs = false;
+        static bool OptShowHelp = false;
+        static bool OptShowExamples = false;
+        static bool OptPause = false;
+        static bool OptDebug = false;
+        static bool OptOverwriteInFile = false;
+        static bool OptPrettify = true;
+        static bool OptSortNodes = true;
+        static StringComparison OptNodeSortCase = StringComparison.CurrentCulture; // Default to case-sensitive sorting.
+        static bool OptSortAttrs = true;
+        static StringComparison OptAttrSortCase = StringComparison.CurrentCulture;
+        static string OptPrimarySortAttr = "";
+        static string OptNewLineChars = "\\r\\n";
+        static string OptIndentChars = "\\t";
+        static bool OptNewLineOnAttrs = false;
 
         static XmlWriterSettings settings { get; set; }
 
@@ -64,7 +60,7 @@ namespace sortxml
                 var isFlag = false;
                 var flagVal = true;
 
-                if (debug) {
+                if (OptDebug) {
                     Console.WriteLine($"argument[{i}] = [`{a}`]");
                 }
 
@@ -82,58 +78,74 @@ namespace sortxml
 
                 if (isFlag) {
                     if (a == "?" || a == "help") {
-                        show_help = true;
+                        OptShowHelp = true;
                     } else if (a == "example" || a == "examples") {
-                        show_examples = true;
+                        OptShowExamples = true;
                     } else if (a == "p" || a == "pause") {
-                        pause = flagVal;
+                        OptPause = flagVal;
                     } else if (a == "e" || a == "debug") {
-                        debug = flagVal;
+                        OptDebug = flagVal;
 
                     } else if (a == "i" || a == "case-insensitive") {
-                        sort_node_comp =
-                        sort_attr_comp = flagVal
+                        OptNodeSortCase =
+                        OptAttrSortCase = flagVal
+                            ? StringComparison.CurrentCultureIgnoreCase
+                            : StringComparison.CurrentCulture;
+                    } else if (a == "node-case-insensitive") {
+                        OptNodeSortCase = flagVal
+                            ? StringComparison.CurrentCultureIgnoreCase
+                            : StringComparison.CurrentCulture;
+                    } else if (a == "attr-case-insensitive") {
+                        OptAttrSortCase = flagVal
                             ? StringComparison.CurrentCultureIgnoreCase
                             : StringComparison.CurrentCulture;
                     } else if (a == "t" || a == "case-sensitive") {
-                        sort_node_comp =
-                        sort_attr_comp = flagVal
+                        OptNodeSortCase =
+                        OptAttrSortCase = flagVal
+                            ? StringComparison.CurrentCulture
+                            : StringComparison.CurrentCultureIgnoreCase;
+                    } else if (a == "node-case-sensitive") {
+                        OptNodeSortCase = flagVal
+                            ? StringComparison.CurrentCulture
+                            : StringComparison.CurrentCultureIgnoreCase;
+                    } else if (a == "attr-case-sensitive") {
+                        OptAttrSortCase = flagVal
                             ? StringComparison.CurrentCulture
                             : StringComparison.CurrentCultureIgnoreCase;
 
                     } else if (a == "s" || a == "sort" || a == "sort-all") {
-                        sort_node =
-                        sort_attr = flagVal;
+                        OptSortNodes =
+                        OptSortAttrs = flagVal;
                     } else if (a == "sort-node" || a == "sort-nodes") {
-                        sort_node = flagVal;
+                        OptSortNodes = flagVal;
                     } else if (a == "sort-attr" || a == "sort-attrs") {
-                        sort_attr = flagVal;
+                        OptSortAttrs = flagVal;
 
                     } else if (a == "pretty") {
-                        pretty = flagVal;
+                        OptPrettify = flagVal;
                     } else if (a == "overwrite") {
-                        overwriteSelf = flagVal;
+                        OptOverwriteInFile = flagVal;
 
                     } else if (a.StartsWith("primary-attr=")) {
-                        primary_attr = a.Substring("primary-attr=".Length).Trim();
-                        primary_attr = RemoveOutsideQuotes(primary_attr);
+                        OptPrimarySortAttr = a.Substring("primary-attr=".Length).Trim();
+                        OptPrimarySortAttr = RemoveOutsideQuotes(OptPrimarySortAttr);
 
                     } else if (a.StartsWith("new-line-chars=")) {
-                        new_line_chars = a.Substring("new-line-chars=".Length);
-                        new_line_chars = RemoveOutsideQuotes(new_line_chars);
+                        OptNewLineChars = a.Substring("new-line-chars=".Length);
+                        OptNewLineChars = RemoveOutsideQuotes(OptNewLineChars);
                     } else if (a.StartsWith("indent-chars=")) {
-                        indent_chars = a.Substring("indent-chars=".Length);
-                        indent_chars = RemoveOutsideQuotes(indent_chars);
+                        OptIndentChars = a.Substring("indent-chars=".Length);
+                        OptIndentChars = RemoveOutsideQuotes(OptIndentChars);
                     } else if (a == "new-line-on-attrs") {
-                        new_line_on_attrs = flagVal;
+                        OptNewLineOnAttrs = flagVal;
 
                     } else {
                         Console.WriteLine($"**** Unknown flag: '{arguments[i]}'. ****");
                         return 11;
                     }
                 } else {
-                    if (show_help && (a == "example" || a == "examples")) {
-                        show_examples = true;
+                    if (OptShowHelp && (a == "example" || a == "examples")) {
+                        OptShowExamples = true;
                     } else if (inFile.Length == 0) {
                         inFile = a;
                     } else if (outFile.Length == 0) {
@@ -145,25 +157,25 @@ namespace sortxml
                 }
             }
 
-            if (debug) {
+            if (OptDebug) {
                 Console.WriteLine($"┌─{new string('─', 18 - 1)} {"DEBUG ".PadRight(23, '─')}─┐");
-                Console.WriteLine($"│ {"pause",-18} = {pause.ToString().ToLower(),-20} │");
-                Console.WriteLine($"│ {"debug",-18} = {debug.ToString().ToLower(),-20} │");
-                Console.WriteLine($"│ {"sort_node",-18} = {sort_node.ToString().ToLower(),-20} │");
-                Console.WriteLine($"│ {"sort_attr",-18} = {sort_attr.ToString().ToLower(),-20} │");
-                Console.WriteLine($"│ {"sort_node_comp",-18} = {sort_node_comp,-20} │");
-                Console.WriteLine($"│ {"sort_attr_comp",-18} = {sort_attr_comp,-20} │");
-                Console.WriteLine($"│ {"pretty",-18} = {pretty.ToString().ToLower(),-20} │");
-                Console.WriteLine($"│ {"overwriteSelf",-18} = {overwriteSelf.ToString().ToLower(),-20} │");
-                Console.WriteLine($"│ {"primary_attr",-18} = {$"'{primary_attr}'",-20} │");
-                Console.WriteLine($"│ {"new_line_chars",-18} = {$"'{new_line_chars}'",-20} │");
-                Console.WriteLine($"│ {"indent_chars",-18} = {$"'{indent_chars}'",-20} │");
-                Console.WriteLine($"│ {"new_line_on_attrs",-18} = {new_line_on_attrs.ToString().ToLower(),-20} │");
+                Console.WriteLine($"│ {"OptPause",-18} = {OptPause.ToString().ToLower(),-20} │");
+                Console.WriteLine($"│ {"OptDebug",-18} = {OptDebug.ToString().ToLower(),-20} │");
+                Console.WriteLine($"│ {"OptPrettify",-18} = {OptPrettify.ToString().ToLower(),-20} │");
+                Console.WriteLine($"│ {"OptOverwriteInFile",-18} = {OptOverwriteInFile.ToString().ToLower(),-20} │");
+                Console.WriteLine($"│ {"OptSortNodes",-18} = {OptSortNodes.ToString().ToLower(),-20} │");
+                Console.WriteLine($"│ {"OptNodeSortCase",-18} = {OptNodeSortCase,-20} │");
+                Console.WriteLine($"│ {"OptSortAttrs",-18} = {OptSortAttrs.ToString().ToLower(),-20} │");
+                Console.WriteLine($"│ {"OptAttrSortCase",-18} = {OptAttrSortCase,-20} │");
+                Console.WriteLine($"│ {"OptPrimarySortAttr",-18} = {$"'{OptPrimarySortAttr}'",-20} │");
+                Console.WriteLine($"│ {"OptNewLineChars",-18} = {$"'{OptNewLineChars}'",-20} │");
+                Console.WriteLine($"│ {"OptIndentChars",-18} = {$"'{OptIndentChars}'",-20} │");
+                Console.WriteLine($"│ {"OptNewLineOnAttrs",-18} = {OptNewLineOnAttrs.ToString().ToLower(),-20} │");
                 Console.WriteLine($"└─{new string('─', 41)}─┘");
             }
 
-            if (show_help) {
-                usage(show_examples);
+            if (OptShowHelp) {
+                usage(OptShowExamples);
                 return 0;
             }
 
@@ -174,7 +186,7 @@ namespace sortxml
             }
 
             try {
-                doc.PreserveWhitespace = !pretty;
+                doc.PreserveWhitespace = !OptPrettify;
                 doc.LoadXml(File.ReadAllText(inFile));
             } catch (Exception ex) {
                 Console.WriteLine("**** Could not load input file. ****");
@@ -182,7 +194,7 @@ namespace sortxml
                 return 100;
             }
 
-            if (sort_attr) {
+            if (OptSortAttrs) {
                 // > I don't like defaulting a primary key -
                 //   ie: changing an expected behavior without notice/clear understanding..
                 // if (string.IsNullOrEmpty(primary_attr)) {
@@ -190,11 +202,11 @@ namespace sortxml
                 // }
                 SortNodeAttrs(doc.DocumentElement);
             }
-            if (sort_node) {
+            if (OptSortNodes) {
                 SortNodes(doc.DocumentElement);
             }
 
-            if (outFile.Length == 0 && overwriteSelf) {
+            if (outFile.Length == 0 && OptOverwriteInFile) {
                 outFile = inFile;
             }
 
@@ -202,15 +214,15 @@ namespace sortxml
                 CloseOutput = true,
                 // Encoding = Encoding.UTF8,
                 Indent = true, //!string.IsNullOrEmpty(indent_chars),
-                IndentChars = indent_chars.Replace("\\r", "\r").Replace("\\n", "\n").Replace("\\t", "\t").Replace("\\s", " "),
-                NewLineChars = new_line_chars.Replace("\\r", "\r").Replace("\\n", "\n").Replace("\\t", "\t").Replace("\\s", " "),
+                IndentChars = OptIndentChars.Replace("\\r", "\r").Replace("\\n", "\n").Replace("\\t", "\t").Replace("\\s", " "),
+                NewLineChars = OptNewLineChars.Replace("\\r", "\r").Replace("\\n", "\n").Replace("\\t", "\t").Replace("\\s", " "),
                 NewLineHandling = NewLineHandling.Replace,
-                NewLineOnAttributes = new_line_on_attrs
+                NewLineOnAttributes = OptNewLineOnAttrs
             };
 
             if (outFile.Length > 0) {
                 try {
-                    if (pretty) {
+                    if (OptPrettify) {
                         var xmlWriter = XmlWriter.Create(outFile, settings);
                         doc.Save(xmlWriter);
                     } else {
@@ -222,7 +234,7 @@ namespace sortxml
                     return 101;
                 }
             } else {
-                if (pretty) {
+                if (OptPrettify) {
                     var xmlWriter = XmlWriter.Create(Console.Out, settings);
                     doc.Save(xmlWriter);
                 } else {
@@ -230,7 +242,7 @@ namespace sortxml
                 }
             }
 
-            if (pause) {
+            if (OptPause) {
                 Console.Write("Press any key to quit: ");
                 Console.ReadKey(true);
                 Console.WriteLine();
@@ -257,7 +269,7 @@ namespace sortxml
             }
 
             // Remove, sort, then re-add the node's children.
-            if (sort_node && node.ChildNodes != null && node.ChildNodes.Count > 0) {
+            if (OptSortNodes && node.ChildNodes != null && node.ChildNodes.Count > 0) {
                 var nodes = new List<XmlNode>(node.ChildNodes.Count);
 
                 for (var i = node.ChildNodes.Count - 1; i >= 0; i--) {
@@ -275,7 +287,7 @@ namespace sortxml
 
         static int SortDelegate( XmlNode a, XmlNode b )
         {
-            var result = string.Compare(a.Name, b.Name, sort_node_comp);
+            var result = string.Compare(a.Name, b.Name, OptNodeSortCase);
 
             // NOTE: Always sort the _nodes_ based on its attributes (when the
             //       name matches), but don't actually sort the node's attributes.
@@ -289,9 +301,9 @@ namespace sortxml
                     if (i < col2.Count) {
                         var aa = col1[i];
                         var bb = col2[i];
-                        result = string.Compare(aa.Name, bb.Name, sort_attr_comp);
+                        result = string.Compare(aa.Name, bb.Name, OptAttrSortCase);
                         if (result == 0) {
-                            result = string.Compare(aa.Value, bb.Value, sort_attr_comp);
+                            result = string.Compare(aa.Value, bb.Value, OptAttrSortCase);
                             if (result != 0) {
                                 return result;
                             }
@@ -316,7 +328,7 @@ namespace sortxml
         static void SortNodeAttrs( XmlNode node )
         {
             // Remove, sort, then re-add the node's attributes.
-            if (sort_attr && node.Attributes != null && node.Attributes.Count > 0) {
+            if (OptSortAttrs && node.Attributes != null && node.Attributes.Count > 0) {
                 SortXmlAttributeCollection(node.Attributes);
             }
 
@@ -329,7 +341,7 @@ namespace sortxml
         static void SortXmlAttributeCollection( XmlAttributeCollection col )
         {
             // Remove, sort, then re-add the attributes to the collection.
-            if (sort_attr && col != null && col.Count > 0) {
+            if (OptSortAttrs && col != null && col.Count > 0) {
                 var attrs = new List<XmlAttribute>(col.Count);
 
                 for (var i = col.Count - 1; i >= 0; i--) {
@@ -348,14 +360,14 @@ namespace sortxml
         static void SortAttributeList( List<XmlAttribute> attrs )
         {
             attrs.Sort(delegate ( XmlAttribute a, XmlAttribute b ) {
-                var result = string.Compare(a.Name, b.Name, sort_attr_comp);
+                var result = string.Compare(a.Name, b.Name, OptAttrSortCase);
                 if (result == 0) {
-                    return string.Compare(a.Value, b.Value, sort_attr_comp);
-                } else if (!string.IsNullOrEmpty(primary_attr)) {
+                    return string.Compare(a.Value, b.Value, OptAttrSortCase);
+                } else if (!string.IsNullOrEmpty(OptPrimarySortAttr)) {
                     // If a primary_attr is specified, it is always made the first attribute!
-                    if (a.Name.Equals(primary_attr, sort_attr_comp)) {
+                    if (a.Name.Equals(OptPrimarySortAttr, OptAttrSortCase)) {
                         return -1;
-                    } else if (b.Name.Equals(primary_attr, sort_attr_comp)) {
+                    } else if (b.Name.Equals(OptPrimarySortAttr, OptAttrSortCase)) {
                         return 1;
                     }
                 }
@@ -392,7 +404,11 @@ namespace sortxml
             Console.WriteLine("  --sort-attr            Sort the attributes.");
             Console.WriteLine("                         If any sort is specified, '--pretty' is assumed.");
             Console.WriteLine("  /i --case-insensitive  Sorts node and attributes without regard to letter case (default).");
+            Console.WriteLine("     --node-case-insensitive");
+            Console.WriteLine("     --attr-case-insensitive");
             Console.WriteLine("  /t --case-sensitive    Sorts node and attributes case-sensitively.");
+            Console.WriteLine("     --node-case-sensitive");
+            Console.WriteLine("     --attr-case-sensitive");
             Console.WriteLine("");
             Console.WriteLine("  --overwrite            Writes back to the infile. Ignored if outfile is specified.");
             Console.WriteLine("");
