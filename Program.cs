@@ -37,11 +37,18 @@ namespace sortxml
         static bool sort_attr = true;
         static bool pretty = true;
         static bool pause = false;
+        static bool debug = false;
         static bool overwriteSelf = false;
         static StringComparison sort_node_comp = StringComparison.CurrentCulture; // Default to case-sensitive sorting.
         static StringComparison sort_attr_comp = StringComparison.CurrentCulture;
 
         static string primary_attr = "";
+
+        static string new_line_chars = "\r\n";
+        static bool new_line_on_attrs = false;
+        static string indent_chars = "\t";
+
+        static XmlWriterSettings settings { get; set; }
 
         static int Main( string[] arguments )
         {
@@ -52,6 +59,14 @@ namespace sortxml
 
             for (var i = 0; i < arguments.Length; i++) {
                 var a = arguments[i];
+
+                // if (debug) {
+                //     Console.WriteLine($"a = `{a}`");
+                // }
+
+                if (a.StartsWith('"') && a.EndsWith('"')) {
+                    a = a.Substring(1, a.Length - 2);
+                }
 
                 if (a[0] == '-' || a[0] == '/' || a[0] == '!') {
                     while (a[0] == '-' || a[0] == '/') {
@@ -65,12 +80,16 @@ namespace sortxml
 
                     } else if (al.Equals("p") || al.Equals("pause")) {
                         pause = true;
+                    } else if (al.Equals("e") || al.Equals("debug")) {
+                        debug = true;
+
                     } else if (al.Equals("i") || al.StartsWith("casei") || al.StartsWith("case-i")) {
                         sort_node_comp = StringComparison.CurrentCultureIgnoreCase;
                         sort_attr_comp = StringComparison.CurrentCultureIgnoreCase;
                     } else if (al.Equals("!i") || al.StartsWith("cases") || al.StartsWith("case-s")) {
                         sort_node_comp = StringComparison.CurrentCulture;
                         sort_attr_comp = StringComparison.CurrentCulture;
+
                     } else if (al.Equals("s") || al.Equals("sort") || al.StartsWith("sortall") || al.StartsWith("sort-all")) {
                         sort_node = true;
                         sort_attr = true;
@@ -85,12 +104,21 @@ namespace sortxml
                         sort_attr = true;
                     } else if (al.StartsWith("!sorta") || al.StartsWith("!sort-a")) {
                         sort_attr = false;
+
                     } else if (al.StartsWith("pretty") || al.StartsWith("!pretty")) {
                         pretty = al.StartsWith("pretty");
                     } else if (al.StartsWith("overwrite") || al.StartsWith("!overwrite")) {
                         overwriteSelf = al.StartsWith("overwrite");
-                    } else if (al.StartsWith("primary:")) {
-                        primary_attr = al.Substring("primary:".Length);
+
+                    } else if (al.StartsWith("primary:") || al.StartsWith("primary=")) {
+                        primary_attr = al.Substring("primary:".Length).Trim();
+
+                    } else if (al.StartsWith("newlinechars")) {
+                        new_line_chars = al.Substring("newlinechars:".Length).Trim();
+                    } else if (al.StartsWith("newlineonattributes") || al.StartsWith("!newlineonattributes")) {
+                        new_line_on_attrs = al.StartsWith("newlineonattributes");
+                    } else if (al.StartsWith("indentchars")) {
+                        indent_chars = al.Substring("indentchars:".Length).Trim();
                     }
                 } else {
                     if (inf.Length == 0) {
@@ -108,6 +136,25 @@ namespace sortxml
                 return 1;
             }
 
+            if (debug) {
+                Console.WriteLine($"pause             = {pause}");
+                Console.WriteLine($"debug             = {debug}");
+
+                Console.WriteLine($"sort_node         = {sort_node}");
+                Console.WriteLine($"sort_attr         = {sort_attr}");
+                Console.WriteLine($"sort_node_comp    = {sort_node_comp}");
+                Console.WriteLine($"sort_attr_comp    = {sort_attr_comp}");
+
+                Console.WriteLine($"pretty            = {pretty}");
+                Console.WriteLine($"overwriteSelf     = {overwriteSelf}");
+
+                Console.WriteLine($"primary_attr      = '{primary_attr}'");
+
+                Console.WriteLine($"new_line_chars    = '{new_line_chars}'");
+                Console.WriteLine($"new_line_on_attrs = {new_line_on_attrs}");
+                Console.WriteLine($"indent_chars      = '{indent_chars}'");
+            }
+
             try {
                 doc.LoadXml(File.ReadAllText(inf));
                 doc.PreserveWhitespace = !pretty;
@@ -118,9 +165,11 @@ namespace sortxml
             }
 
             if (sort_attr) {
-                if (string.IsNullOrEmpty(primary_attr)) {
-                    primary_attr = "GUID";
-                }
+                // > I don't like defaulting a primary key -
+                //   ie: changing an expected behavior without notice/clear understanding..
+                // if (string.IsNullOrEmpty(primary_attr)) {
+                //     primary_attr = "GUID";
+                // }
                 SortNodeAttrs(doc.DocumentElement);
             }
             if (sort_node) {
@@ -131,16 +180,36 @@ namespace sortxml
                 outf = inf;
             }
 
+            settings = new XmlWriterSettings() {
+                CloseOutput = true,
+                NewLineChars = new_line_chars.Replace("\\r", "\r").Replace("\\n", "\n").Replace("\\t", "\t"),
+                // Encoding = Encoding.UTF8,
+                Indent = true, //!string.IsNullOrEmpty(indent_chars),
+                IndentChars = indent_chars.Replace("\\r", "\r").Replace("\\n", "\n").Replace("\\t", "\t"),
+                NewLineHandling = NewLineHandling.Replace,
+                NewLineOnAttributes = new_line_on_attrs
+            };
+
             if (outf.Length > 0) {
                 try {
-                    doc.Save(outf);
+                    if (pretty) {
+                        var xmlWriter = XmlWriter.Create(outf, settings);
+                        doc.Save(xmlWriter);
+                    } else {
+                        doc.Save(outf);
+                    }
                 } catch (Exception ex) {
                     Console.WriteLine("**** Could not save output file");
                     Console.WriteLine(ex.Message);
                     return 101;
                 }
             } else {
-                doc.Save(Console.Out);
+                if (pretty) {
+                    var xmlWriter = XmlWriter.Create(Console.Out, settings);
+                    doc.Save(xmlWriter);
+                } else {
+                    doc.Save(Console.Out);
+                }
             }
 
             if (pause) {
