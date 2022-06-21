@@ -35,6 +35,8 @@ namespace sortxml
     {
         static bool sort_node = true;
         static bool sort_attr = true;
+        static bool show_help = false;
+        static bool show_examples = false;
         static bool pretty = true;
         static bool pause = false;
         static bool debug = false;
@@ -44,94 +46,111 @@ namespace sortxml
 
         static string primary_attr = "";
 
-        static string new_line_chars = "\r\n";
+        static string new_line_chars = "\\r\\n";
+        static string indent_chars = "\\t";
         static bool new_line_on_attrs = false;
-        static string indent_chars = "\t";
 
         static XmlWriterSettings settings { get; set; }
 
         static int Main( string[] arguments )
         {
-            var inf = "";
-            var outf = "";
+            var inFile = "";
+            var outFile = "";
 
             var doc = new XmlDocument();
 
             for (var i = 0; i < arguments.Length; i++) {
                 var a = arguments[i];
+                var isFlag = false;
+                var flagVal = true;
 
-                // if (debug) {
-                //     Console.WriteLine($"a = `{a}`");
-                // }
-
-                if (a.StartsWith('"') && a.EndsWith('"')) {
-                    a = a.Substring(1, a.Length - 2);
+                if (debug) {
+                    Console.WriteLine($"argument[{i}] = [`{a}`]");
                 }
 
-                if (a[0] == '-' || a[0] == '/' || a[0] == '!') {
-                    while (a[0] == '-' || a[0] == '/') {
-                        a = a.Substring(1);
+                a = RemoveOutsideQuotes(a);
+
+                while (a[0] == '-' || a[0] == '/' || a[0] == '!') {
+                    if (a[0] == '!') {
+                        flagVal = false;
                     }
-                    var al = a.ToLower();
+                    isFlag = true;
+                    a = a.Substring(1);
+                }
 
-                    if (al.Equals("?") || al.Equals("help")) {
-                        usage();
-                        return 0;
+                a = RemoveOutsideQuotes(a);
 
-                    } else if (al.Equals("p") || al.Equals("pause")) {
-                        pause = true;
-                    } else if (al.Equals("e") || al.Equals("debug")) {
-                        debug = true;
+                if (isFlag) {
+                    if (a == "?" || a == "help") {
+                        show_help = true;
+                    } else if (a == "example" || a == "examples") {
+                        show_examples = true;
+                    } else if (a == "p" || a == "pause") {
+                        pause = flagVal;
+                    } else if (a == "e" || a == "debug") {
+                        debug = flagVal;
 
-                    } else if (al.Equals("i") || al.StartsWith("casei") || al.StartsWith("case-i")) {
-                        sort_node_comp = StringComparison.CurrentCultureIgnoreCase;
-                        sort_attr_comp = StringComparison.CurrentCultureIgnoreCase;
-                    } else if (al.Equals("!i") || al.StartsWith("cases") || al.StartsWith("case-s")) {
-                        sort_node_comp = StringComparison.CurrentCulture;
-                        sort_attr_comp = StringComparison.CurrentCulture;
+                    } else if (a == "i" || a == "case-insensitive") {
+                        sort_node_comp =
+                        sort_attr_comp = flagVal
+                            ? StringComparison.CurrentCultureIgnoreCase
+                            : StringComparison.CurrentCulture;
+                    } else if (a == "t" || a == "case-sensitive") {
+                        sort_node_comp =
+                        sort_attr_comp = flagVal
+                            ? StringComparison.CurrentCulture
+                            : StringComparison.CurrentCultureIgnoreCase;
 
-                    } else if (al.Equals("s") || al.Equals("sort") || al.StartsWith("sortall") || al.StartsWith("sort-all")) {
-                        sort_node = true;
-                        sort_attr = true;
-                    } else if (al.Equals("!s") || al.Equals("!sort") || al.StartsWith("!sortall") || al.StartsWith("!sort-all")) {
-                        sort_node = false;
-                        sort_attr = false;
-                    } else if (al.StartsWith("sortn") || al.StartsWith("sort-n")) {
-                        sort_node = true;
-                    } else if (al.StartsWith("!sortn") || al.StartsWith("!sort-n")) {
-                        sort_node = false;
-                    } else if (al.StartsWith("sorta") || al.StartsWith("sort-a")) {
-                        sort_attr = true;
-                    } else if (al.StartsWith("!sorta") || al.StartsWith("!sort-a")) {
-                        sort_attr = false;
+                    } else if (a == "s" || a == "sort" || a == "sort-all") {
+                        sort_node =
+                        sort_attr = flagVal;
+                    } else if (a == "sort-node" || a == "sort-nodes") {
+                        sort_node = flagVal;
+                    } else if (a == "sort-attr" || a == "sort-attrs") {
+                        sort_attr = flagVal;
 
-                    } else if (al.StartsWith("pretty") || al.StartsWith("!pretty")) {
-                        pretty = al.StartsWith("pretty");
-                    } else if (al.StartsWith("overwrite") || al.StartsWith("!overwrite")) {
-                        overwriteSelf = al.StartsWith("overwrite");
+                    } else if (a == "pretty") {
+                        pretty = flagVal;
+                    } else if (a == "overwrite") {
+                        overwriteSelf = flagVal;
 
-                    } else if (al.StartsWith("primary:") || al.StartsWith("primary=")) {
-                        primary_attr = al.Substring("primary:".Length).Trim();
+                    } else if (a.StartsWith("primary-attr=")) {
+                        primary_attr = a.Substring("primary-attr=".Length).Trim();
+                        primary_attr = RemoveOutsideQuotes(primary_attr);
 
-                    } else if (al.StartsWith("newlinechars")) {
-                        new_line_chars = al.Substring("newlinechars:".Length).Trim();
-                    } else if (al.StartsWith("newlineonattributes") || al.StartsWith("!newlineonattributes")) {
-                        new_line_on_attrs = al.StartsWith("newlineonattributes");
-                    } else if (al.StartsWith("indentchars")) {
-                        indent_chars = al.Substring("indentchars:".Length).Trim();
+                    } else if (a.StartsWith("new-line-chars=")) {
+                        new_line_chars = a.Substring("new-line-chars=".Length);
+                        new_line_chars = RemoveOutsideQuotes(new_line_chars);
+                    } else if (a.StartsWith("indent-chars=")) {
+                        indent_chars = a.Substring("indent-chars=".Length);
+                        indent_chars = RemoveOutsideQuotes(indent_chars);
+                    } else if (a == "new-line-on-attrs") {
+                        new_line_on_attrs = flagVal;
+
+                    } else {
+                        Console.WriteLine($"**** Unknown flag: '{arguments[i]}'.");
+                        return 11;
                     }
                 } else {
-                    if (inf.Length == 0) {
-                        inf = a;
-                    } else if (outf.Length == 0) {
-                        outf = a;
+                    if (show_help && (a == "example" || a == "examples")) {
+                        show_examples = true;
+                    } else if (inFile.Length == 0) {
+                        inFile = a;
+                    } else if (outFile.Length == 0) {
+                        outFile = a;
                     } else {
-                        Console.WriteLine("**** Unknown command: " + a);
+                        Console.WriteLine($"**** Unknown argument: '{arguments[i]}'.");
+                        return 11;
                     }
                 }
             }
 
-            if (inf.Length == 0) {
+            if (show_help) {
+                usage(show_examples);
+                return 0;
+            }
+
+            if (inFile.Length == 0) {
                 usage();
                 return 1;
             }
@@ -151,13 +170,13 @@ namespace sortxml
                 Console.WriteLine($"primary_attr      = '{primary_attr}'");
 
                 Console.WriteLine($"new_line_chars    = '{new_line_chars}'");
-                Console.WriteLine($"new_line_on_attrs = {new_line_on_attrs}");
                 Console.WriteLine($"indent_chars      = '{indent_chars}'");
+                Console.WriteLine($"new_line_on_attrs = {new_line_on_attrs}");
             }
 
             try {
-                doc.LoadXml(File.ReadAllText(inf));
                 doc.PreserveWhitespace = !pretty;
+                doc.LoadXml(File.ReadAllText(inFile));
             } catch (Exception ex) {
                 Console.WriteLine("**** Could not load input file");
                 Console.WriteLine(ex.Message);
@@ -176,27 +195,27 @@ namespace sortxml
                 SortNodes(doc.DocumentElement);
             }
 
-            if (outf.Length == 0 && overwriteSelf) {
-                outf = inf;
+            if (outFile.Length == 0 && overwriteSelf) {
+                outFile = inFile;
             }
 
             settings = new XmlWriterSettings() {
                 CloseOutput = true,
-                NewLineChars = new_line_chars.Replace("\\r", "\r").Replace("\\n", "\n").Replace("\\t", "\t"),
                 // Encoding = Encoding.UTF8,
                 Indent = true, //!string.IsNullOrEmpty(indent_chars),
-                IndentChars = indent_chars.Replace("\\r", "\r").Replace("\\n", "\n").Replace("\\t", "\t"),
+                IndentChars = indent_chars.Replace("\\r", "\r").Replace("\\n", "\n").Replace("\\t", "\t").Replace("\\s", " "),
+                NewLineChars = new_line_chars.Replace("\\r", "\r").Replace("\\n", "\n").Replace("\\t", "\t").Replace("\\s", " "),
                 NewLineHandling = NewLineHandling.Replace,
                 NewLineOnAttributes = new_line_on_attrs
             };
 
-            if (outf.Length > 0) {
+            if (outFile.Length > 0) {
                 try {
                     if (pretty) {
-                        var xmlWriter = XmlWriter.Create(outf, settings);
+                        var xmlWriter = XmlWriter.Create(outFile, settings);
                         doc.Save(xmlWriter);
                     } else {
-                        doc.Save(outf);
+                        doc.Save(outFile);
                     }
                 } catch (Exception ex) {
                     Console.WriteLine("**** Could not save output file");
@@ -219,6 +238,14 @@ namespace sortxml
             }
 
             return 0;
+        }
+
+        static string RemoveOutsideQuotes( string s )
+        {
+            if ((s.StartsWith('"') && s.EndsWith('"')) || (s.StartsWith('\'') && s.EndsWith('\''))) {
+                return s = s.Substring(1, s.Length - 2);
+            }
+            return s;
         }
 
         static void SortNodes( XmlNode node )
@@ -337,63 +364,93 @@ namespace sortxml
             });
         }
 
-        static void usage()
+        static void usage( bool showExamples = false )
         {
-            Console.WriteLine("sortxml");
+            Console.WriteLine("sortxml - small utility that sorts (and prettifies) xml files.");
+            Console.WriteLine("Copyright (c) 2014-2022 Kody Brown (@kodybrown)");
             Console.WriteLine("");
-            Console.WriteLine("This is a small utility that sorts (and prettifies) xml files.");
-            Console.WriteLine("It uses the Microsoft XML .NET namespace.");
+            Console.WriteLine("USAGE: sortxml [options] infile [outfile]");
             Console.WriteLine("");
-            Console.WriteLine("Copyright (c) 2014-2020 Kody Brown (@wasatchwizard)");
+            Console.WriteLine("  infile        The name of the file to sort, etc.");
+            Console.WriteLine("  outfile       The name of the file to save the output to.");
+            Console.WriteLine("                If outfile is omitted, the output is written to stdout,");
+            Console.WriteLine("                unless `--overwrite` is specified, in which case the");
+            Console.WriteLine("                output is written back to infile, overwriting it.");
             Console.WriteLine("");
-            Console.WriteLine("    USAGE: sortxml.exe [options] infile [outfile]");
+            Console.WriteLine("OPTIONS:");
             Console.WriteLine("");
-            Console.WriteLine("      infile        The name of the file to sort, etc.");
+            Console.WriteLine("  /? --help [-examples]  Shows this help (optionally with examples).");
+            Console.WriteLine("  /p --pause             Pauses when finished.");
+            Console.WriteLine("  /e --debug             Displays debug info and details.");
             Console.WriteLine("");
-            Console.WriteLine("      outfile       The name of the file to save the output to.");
-            Console.WriteLine("                    If outfile is omitted, the output is written to stdout,");
-            Console.WriteLine("                    unless `--overwrite` is specified, in which case the");
-            Console.WriteLine("                    output is written back to infile, overwriting it.");
+            Console.WriteLine("  --pretty               Ignores the input format and prettifies the output (default).");
+            Console.WriteLine("  --new-line-chars=x     Specifies the character(s) to use for each new line.");
+            Console.WriteLine("  --new-line-on-attrs    Separates each attribute onto its own line.");
+            Console.WriteLine("  --indent-chars=x       Specifies the characher(s) for the indentation.");
             Console.WriteLine("");
-            Console.WriteLine("    OPTIONS:");
+            Console.WriteLine("  /s --sort              Sort both the nodes and attributes. (default)");
+            Console.WriteLine("  --sort-node            Sort the nodes.");
+            Console.WriteLine("  --sort-attr            Sort the attributes.");
+            Console.WriteLine("                         If any sort is specified, '--pretty' is assumed.");
+            Console.WriteLine("  /i --case-insensitive  Sorts node and attributes without regard to letter case (default).");
+            Console.WriteLine("  /t --case-sensitive    Sorts node and attributes case-sensitively.");
             Console.WriteLine("");
-            Console.WriteLine("      /p --pause    Pauses when finished.");
+            Console.WriteLine("  --overwrite            Writes back to the infile. Ignored if outfile is specified.");
             Console.WriteLine("");
-            Console.WriteLine("      --pretty      Ignores the input format and makes the output look nice.");
-            Console.WriteLine("                    This is the default.");
+            // Console.WriteLine("  --primary-node=x       This specified node will always be sorted first.");
+            Console.WriteLine("  --primary-attr=x       This specified attribute will always be sorted first.");
+            // Console.WriteLine("                         Use commas to specify multiple attribute priorities.");
             Console.WriteLine("");
-            Console.WriteLine("      /s --sort     Sort both the nodes and attributes.");
-            Console.WriteLine("      --sort-node   Sort the nodes.");
-            Console.WriteLine("      --sort-attr   Sort the attributes.");
-            Console.WriteLine("                    If a sort is specified, '--pretty' is assumed.");
-            Console.WriteLine("                    If a sort is NOT is specified, both nodes and attributes");
-            Console.WriteLine("                    will be sorted.");
+            Console.WriteLine("  The '-' and '--' prefixes are interchangable (flags cannot be combined).");
+            Console.WriteLine("  Add a '!' after the prefix, to turn the flag off.");
+            Console.WriteLine("  This utility uses the Microsoft XML .NET namespace.");
             Console.WriteLine("");
-            Console.WriteLine("      /i --case-insensitive");
-            Console.WriteLine("                    Sorts node and attributes without regard to letter case.");
-            Console.WriteLine("      !i --case-sensitive");
-            Console.WriteLine("                    Sorts node and attributes case-sensitively.");
-            Console.WriteLine("                    If neither option is specified, uses case-sensitive sort.");
-            Console.WriteLine("");
-            Console.WriteLine("      --overwrite   Writes back to the infile.");
-            Console.WriteLine("                    Only used if outfile is not specified.");
-            Console.WriteLine("");
-            Console.WriteLine("    Prefix an option with '!' to turn it off.");
-            Console.WriteLine("    The '!' can be applied with or without one of the other prefixes.");
-            Console.WriteLine("    The '/' and '--' prefixes are interchangable.");
-            Console.WriteLine("");
-            Console.WriteLine("The default is to output pretty and sorted nodes and attributes:");
-            Console.WriteLine("");
-            Console.WriteLine("    > type sample.xml");
-            Console.WriteLine("    <?xml version=\"1.0\" encoding=\"utf-8\" ?><root><node value=\"one\" attr=\"name\"/><node2 attr=\"name\" value=\"two\" /></root>");
-            Console.WriteLine("");
-            Console.WriteLine("    > sortxml.exe sample.xml");
-            Console.WriteLine("    <?xml version=\"1.0\" encoding=\"utf-8\" ?>");
-            Console.WriteLine("    <root>");
-            Console.WriteLine("        <node attr=\"name\" value=\"one\" />");
-            Console.WriteLine("        <node2 attr=\"name\" value=\"two\" />");
-            Console.WriteLine("    </root>");
 
+            Console.WriteLine("  Type `sortxml --help examples` to display some examples.");
+            Console.WriteLine("");
+
+            if (showExamples) {
+                Console.WriteLine("EXAMPLES:");
+                Console.WriteLine("");
+                Console.WriteLine("> type sample.xml");
+                Console.WriteLine("  <?xml version=\"1.0\" encoding=\"utf-8\" ?><root><node value=\"one\" name=\"xyz\"/><node2 name=\"abc\" value=\"two\"/></root>");
+                Console.WriteLine("");
+                Console.WriteLine("> sortxml sample.xml");
+                Console.WriteLine("  <?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                Console.WriteLine("  <root>");
+                Console.WriteLine("      <node name=\"xyz\" value=\"one\" />");
+                Console.WriteLine("      <node2 name=\"abc\" value=\"two\" />");
+                Console.WriteLine("  </root>");
+                Console.WriteLine("");
+                Console.WriteLine("> sortxml sample.xml -!pretty");
+                Console.WriteLine("  <?xml version=\"1.0\" encoding=\"utf-8\"?><root><node name=\"xyz\" value=\"one\" /><node2 name=\"abc\" value=\"two\" /></root>");
+                Console.WriteLine("");
+                Console.WriteLine("> sortxml sample.xml -primary-attr=value");
+                Console.WriteLine("  <?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                Console.WriteLine("  <root>");
+                Console.WriteLine("      <node value=\"one\" name=\"xyz\" />");
+                Console.WriteLine("      <node2 value=\"two\" name=\"abc\" />");
+                Console.WriteLine("  </root>");
+                Console.WriteLine("");
+                Console.WriteLine("> sortxml sample.xml -indent-chars=' '");
+                Console.WriteLine("  <?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                Console.WriteLine("  <root>");
+                Console.WriteLine("   <node name=\"xyz\" value=\"one\" />");
+                Console.WriteLine("   <node2 name=\"abc\" value=\"two\" />");
+                Console.WriteLine("  </root>");
+                Console.WriteLine("");
+                Console.WriteLine("> sortxml sample.xml -indent-chars=' ' -new-line-on-attrs");
+                Console.WriteLine("  <?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                Console.WriteLine("  <root>");
+                Console.WriteLine("   <node");
+                Console.WriteLine("    name=\"xyz\"");
+                Console.WriteLine("    value=\"one\" />");
+                Console.WriteLine("   <node2");
+                Console.WriteLine("    name=\"abc\"");
+                Console.WriteLine("    value=\"two\" />");
+                Console.WriteLine("  </root>");
+                Console.WriteLine("");
+            }
         }
     }
 }
