@@ -128,7 +128,7 @@ namespace sortxml
                         new_line_on_attrs = flagVal;
 
                     } else {
-                        Console.WriteLine($"**** Unknown flag: '{arguments[i]}'.");
+                        Console.WriteLine($"**** Unknown flag: '{arguments[i]}'. ****");
                         return 11;
                     }
                 } else {
@@ -139,10 +139,27 @@ namespace sortxml
                     } else if (outFile.Length == 0) {
                         outFile = a;
                     } else {
-                        Console.WriteLine($"**** Unknown argument: '{arguments[i]}'.");
+                        Console.WriteLine($"**** Unknown argument: '{arguments[i]}'. ****");
                         return 11;
                     }
                 }
+            }
+
+            if (debug) {
+                Console.WriteLine($"┌─{new string('─', 18 - 1)} {"DEBUG ".PadRight(23, '─')}─┐");
+                Console.WriteLine($"│ {"pause",-18} = {pause.ToString().ToLower(),-20} │");
+                Console.WriteLine($"│ {"debug",-18} = {debug.ToString().ToLower(),-20} │");
+                Console.WriteLine($"│ {"sort_node",-18} = {sort_node.ToString().ToLower(),-20} │");
+                Console.WriteLine($"│ {"sort_attr",-18} = {sort_attr.ToString().ToLower(),-20} │");
+                Console.WriteLine($"│ {"sort_node_comp",-18} = {sort_node_comp,-20} │");
+                Console.WriteLine($"│ {"sort_attr_comp",-18} = {sort_attr_comp,-20} │");
+                Console.WriteLine($"│ {"pretty",-18} = {pretty.ToString().ToLower(),-20} │");
+                Console.WriteLine($"│ {"overwriteSelf",-18} = {overwriteSelf.ToString().ToLower(),-20} │");
+                Console.WriteLine($"│ {"primary_attr",-18} = {$"'{primary_attr}'",-20} │");
+                Console.WriteLine($"│ {"new_line_chars",-18} = {$"'{new_line_chars}'",-20} │");
+                Console.WriteLine($"│ {"indent_chars",-18} = {$"'{indent_chars}'",-20} │");
+                Console.WriteLine($"│ {"new_line_on_attrs",-18} = {new_line_on_attrs.ToString().ToLower(),-20} │");
+                Console.WriteLine($"└─{new string('─', 41)}─┘");
             }
 
             if (show_help) {
@@ -151,34 +168,16 @@ namespace sortxml
             }
 
             if (inFile.Length == 0) {
+                Console.WriteLine("**** Missing infile. ****\n");
                 usage();
                 return 1;
-            }
-
-            if (debug) {
-                Console.WriteLine($"pause             = {pause}");
-                Console.WriteLine($"debug             = {debug}");
-
-                Console.WriteLine($"sort_node         = {sort_node}");
-                Console.WriteLine($"sort_attr         = {sort_attr}");
-                Console.WriteLine($"sort_node_comp    = {sort_node_comp}");
-                Console.WriteLine($"sort_attr_comp    = {sort_attr_comp}");
-
-                Console.WriteLine($"pretty            = {pretty}");
-                Console.WriteLine($"overwriteSelf     = {overwriteSelf}");
-
-                Console.WriteLine($"primary_attr      = '{primary_attr}'");
-
-                Console.WriteLine($"new_line_chars    = '{new_line_chars}'");
-                Console.WriteLine($"indent_chars      = '{indent_chars}'");
-                Console.WriteLine($"new_line_on_attrs = {new_line_on_attrs}");
             }
 
             try {
                 doc.PreserveWhitespace = !pretty;
                 doc.LoadXml(File.ReadAllText(inFile));
             } catch (Exception ex) {
-                Console.WriteLine("**** Could not load input file");
+                Console.WriteLine("**** Could not load input file. ****");
                 Console.WriteLine(ex.Message);
                 return 100;
             }
@@ -218,7 +217,7 @@ namespace sortxml
                         doc.Save(outFile);
                     }
                 } catch (Exception ex) {
-                    Console.WriteLine("**** Could not save output file");
+                    Console.WriteLine("**** Could not save output file. ****");
                     Console.WriteLine(ex.Message);
                     return 101;
                 }
