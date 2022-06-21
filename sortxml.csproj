@@ -1,43 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <PackageId>sortxml</PackageId>
     <Product>Bricksoft.PowerTools</Product>
     <AssemblyName>sortxml</AssemblyName>
     <AssemblyTitle>sortxml</AssemblyTitle>
-    <Version>2.1.2005.3015</Version>
+    <Version>2.1.2206.2110</Version>
     <Description>Simple utility that sorts (and prettifies) xml files.</Description>
     <Company></Company>
     <Authors>thewizard@wasatchwizard.com</Authors>
-    <Copyright>Copyright (c) 2014-2020 Kody Brown</Copyright>
+    <Copyright>Copyright (c) 2014-2022 Kody Brown</Copyright>
     <RepositoryUrl>https://github.com/kodybrown/sortxml</RepositoryUrl>
-    <Platforms>AnyCPU;x64;x86</Platforms>
-    <RootNamespace>Bricksoft.sortxml</RootNamespace>
-    <StartupObject>sortxml.Program</StartupObject>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 </Project>

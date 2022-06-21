@@ -13,7 +13,7 @@
                 "build",
                 "-c",
                 "Debug",
-                "${workspaceFolder}/sortxml.csproj",
+                "${workspaceFolder}/sortxml.csproj"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -31,7 +31,7 @@
                 "Release",
                 "-r",
                 "win10-x64",
-                "${workspaceFolder}/sortxml.csproj",
+                "${workspaceFolder}/sortxml.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

@@ -26,7 +26,7 @@ Installing and using the dotnet format tool.
 
 ```powershell
 dotnet tool install -g dotnet-format
-dotnet format -w sortxml.csproj
+dotnet format sortxml.csproj
 ```
 
 ## Usage
